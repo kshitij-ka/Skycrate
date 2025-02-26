@@ -1,18 +1,14 @@
-import React from "react";
 import Footer from "../../components/Footer";
-{
-  /* <img src="vector.png" alt="" className="h-100" /> */
-}
 
 const DrivethruLandingPage = () => {
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      <div className="bg-white min-h-screen flex items-center relative">
+      <div className="bg-white min-h-[1024px] flex items-center relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row items-center">
             <div className="hidden md:block md:w-1/2 lg:w-3/5"></div>
 
-            <div className="w-full mt-70  md:w-1/2 lg:w-2/5 max-w-lg bg-transparent">
+            <div className="w-full md:w-1/2 lg:w-2/5 max-w-lg bg-transparent">
               <div className="flex items-center mb-8">
                 <div className="text-cyan-400 mr-3">
                   <svg
@@ -89,7 +85,7 @@ const DrivethruLandingPage = () => {
                       </svg>
                     </div>
                     <p className="text-lg font-semibold">
-                      "Easy Upload & Access" – Drag & drop, instant access.
+                      Easy Upload & Access – Drag & drop, instant access.
                     </p>
                   </div>
 
@@ -111,7 +107,7 @@ const DrivethruLandingPage = () => {
                       </svg>
                     </div>
                     <p className="text-lg font-semibold">
-                      "Secure & Private" – End-to-end encryption.
+                      Secure & Private – End-to-end encryption.
                     </p>
                   </div>
 
@@ -133,7 +129,7 @@ const DrivethruLandingPage = () => {
                       </svg>
                     </div>
                     <p className="text-lg font-semibold">
-                      "Seamless Sharing" – Share files with one click.
+                      Seamless Sharing – Share files with one click.
                     </p>
                   </div>
 
@@ -155,7 +151,7 @@ const DrivethruLandingPage = () => {
                       </svg>
                     </div>
                     <p className="text-lg font-semibold">
-                      "Access Anywhere" – Works on all devices.
+                      Access Anywhere – Works on all devices.
                     </p>
                   </div>
                 </div>
