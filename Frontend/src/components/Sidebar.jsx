@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { RiDonutChartFill } from "react-icons/ri";
 
 const Sidebar = () => {
   return (
     <>
-      <nav className="fixed top-0 z-50 h-[60px]  w-full bg-white border-b border-gray-200 dark:bg-black dark:border-gray-700">
+      <nav className="fixed top-0 z-50 h-[60px]  w-full bg-white border-b border-gray-200  ">
         <div className="p-[15px] h-full lg:px-5 lg:pl-3 ">
           <div className="flex h-full items-center justify-between">
             <div className="flex items-center justify-start rtl:justify-end">
@@ -24,8 +23,8 @@ const Sidebar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    clip-rule="evenodd"
-                    fill-rule="evenodd"
+                    clipRule="evenodd"
+                    fillRule="evenodd"
                     d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
                   ></path>
                 </svg>
@@ -219,9 +218,9 @@ const Sidebar = () => {
                   viewBox="0 0 24 24"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M3 6a2 2 0 0 1 2-2h5.532a2 2 0 0 1 1.536.72l1.9 2.28H3V6Zm0 3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9H3Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
 
@@ -263,9 +262,9 @@ const Sidebar = () => {
                   viewBox="0 0 24 24"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   />
                 </svg>
 
@@ -277,7 +276,7 @@ const Sidebar = () => {
             {/* Cloud Icon + Title */}
             <div className="flex items-center">
               <svg
-                class="w-7 h-7 text-white dark:text-white"
+                className="w-7 h-7 text-white dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
