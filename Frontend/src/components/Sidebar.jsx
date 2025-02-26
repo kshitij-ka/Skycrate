@@ -1,20 +1,23 @@
+import { Link } from "react-router-dom";
+import { RiDonutChartFill } from "react-icons/ri";
+
 const Sidebar = () => {
   return (
     <>
-      <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-black dark:border-gray-700">
-        <div class="px-3 py-3 lg:px-5 lg:pl-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center justify-start rtl:justify-end">
+      <nav className="fixed top-0 z-50 h-[60px]  w-full bg-white border-b border-gray-200 dark:bg-black dark:border-gray-700">
+        <div className="p-[15px] h-full lg:px-5 lg:pl-3 ">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-start rtl:justify-end">
               <button
                 data-drawer-target="logo-sidebar"
                 data-drawer-toggle="logo-sidebar"
                 aria-controls="logo-sidebar"
                 type="button"
-                class="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden hover:bg-[#37A0EA] focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-[#37A0EA] dark:focus:ring-gray-600"
+                className="inline-flex items-center p-2 text-lg text-white rounded-lg sm:hidden hover:bg-[#37A0EA] focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-[#37A0EA] dark:focus:ring-gray-600"
               >
-                <span class="sr-only">Open sidebar</span>
+                <span className="sr-only">Open sidebar</span>
                 <svg
-                  class="w-6 h-6"
+                  className="w-6 h-6"
                   aria-hidden="true"
                   fill="currentColor"
                   viewBox="0 0 20 20"
@@ -27,85 +30,89 @@ const Sidebar = () => {
                   ></path>
                 </svg>
               </button>
-              <a href="https://flowbite.com" class="flex ms-2 md:me-24">
+              <Link to="/" className="flex ms-2 md:me-24">
                 <img
-                  src="https://flowbite.com/docs/images/logo.svg"
-                  class="h-8 me-3"
-                  alt="FlowBite Logo"
+                  src="./image.png"
+                  className="h-8 me-3"
+                  alt="Drive-thru Logo"
                 />
-                <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Flowbite
+                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
+                  Drive-thru
                 </span>
-              </a>
+              </Link>
             </div>
-            <div class="flex items-center">
-              <div class="flex items-center ms-3">
+            <div className="flex items-center">
+              <div className="flex items-center ms-3">
                 <div>
                   <button
                     type="button"
-                    class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    className="flex text-lg bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                     aria-expanded="false"
                     data-dropdown-toggle="dropdown-user"
                   >
-                    <span class="sr-only">Open user menu</span>
+                    <span className="sr-only">Open user menu</span>
                     <img
-                      class="w-8 h-8 rounded-full"
+                      className="w-8 h-8 rounded-full"
                       src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                       alt="user photo"
                     />
                   </button>
                 </div>
                 <div
-                  class="z-50 hidden my-4 text-base list-none bg-[#1877F2] divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
+                  className="z-50 hidden my-4 text-base list-none bg-[#1877F2] divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
                   id="dropdown-user"
                 >
-                  <div class="px-4 py-3" role="none">
-                    <p class="text-sm text-white dark:text-white" role="none">
+                  <div className="px-4 py-3" role="none">
+                    <p
+                      className="text-lg text-white dark:text-white"
+                      role="none"
+                    >
                       Neil Sims
                     </p>
                     <p
-                      class="text-sm font-medium text-white truncate dark:text-gray-300"
+                      className="text-lg font-medium text-white truncate dark:text-gray-300"
                       role="none"
                     >
-                      neil.sims@flowbite.com
+                      Drive-thru@Drive-thru.com
                     </p>
                   </div>
-                  <ul class="py-1" role="none">
+                  <ul className="py-1" role="none">
                     <li>
-                      <a
-                        href="#"
-                        class="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
+                      <Link
+                        to="#"
+                        className="block px-4 py-2 text-lg text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
                         role="menuitem"
                       >
                         Dashboard
-                      </a>
+                      </Link>
                     </li>
+
                     <li>
-                      <a
-                        href="#"
-                        class="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[##37A0EA] dark:hover:text-white"
+                      <Link
+                        to="#"
+                        className="block px-4 py-2 text-lg text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[##37A0EA] dark:hover:text-white"
                         role="menuitem"
                       >
                         Settings
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
-                        class="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
+                      <Link
+                        to="#"
+                        className="block px-4 py-2 text-lg text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
                         role="menuitem"
                       >
                         Earnings
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
-                        class="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
+                      <Link
+                        to="#"
+                        className="block px-4 py-2 text-lg text-white hover:bg-[#37A0EA] dark:text-gray-300 dark:hover:bg-[#37A0EA] dark:hover:text-white"
                         role="menuitem"
                       >
                         Sign out
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -117,146 +124,167 @@ const Sidebar = () => {
 
       <aside
         id="logo-sidebar"
-        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-[#1877F2] border-r border-gray-200 sm:translate-x-0 dark:bg-[#1877F2] dark:border-gray-700"
+        className="fixed top-0 left-0 z-40 w-64 h-screen pt-[60px] transition-transform -translate-x-full bg-[##1877F2] border-r border-gray-200 sm:translate-x-0 dark:bg-[#1877F2] dark:border-gray-700"
         aria-label="Sidebar"
       >
-        <div class="h-full px-3 pb-4 overflow-y-auto bg-[#1877F2] dark:bg-[#1877F2] custom-scrollbar">
-          <ul class="space-y-2 font-medium">
+        <div className="h-full px-3 pb-4 overflow-y-auto bg-[#1877F2] dark:bg-[#1877F2] custom-scrollbar">
+          <ul className="space-y-2 font-medium">
             <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              <Link
+                to="#"
+                className="flex items-center p-2 mt-5 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
               >
                 <svg
-                  class="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+                  className="w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
-                  viewBox="0 0 22 21"
+                  viewBox="0 0 24 24"
                 >
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z" />
                 </svg>
-                <span class="ms-3">Dashboard</span>
-              </a>
+
+                <span className="ms-3">Starred</span>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              <Link
+                to="#"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
               >
                 <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 18"
-                >
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
-                </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Kanban</span>
-                <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                  Pro
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
-              >
-                <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
-                </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Inbox</span>
-                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
-              >
-                <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                >
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Users</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
-              >
-                <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 20"
-                >
-                  <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-                </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
-              >
-                <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5"
+                  viewBox="0 0 20 17"
                   fill="none"
-                  viewBox="0 0 18 16"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
+                    d="M2.31763 16.0834C1.93846 16.0834 1.60669 15.9372 1.32231 15.6449C1.03794 15.3527 0.895752 15.0248 0.895752 14.6615V2.33856C0.895752 1.97519 1.03794 1.64737 1.32231 1.3551C1.60669 1.06282 1.93846 0.916687 2.31763 0.916687H8.97674L10.3986 2.33856H18.4322C18.7956 2.33856 19.1234 2.4847 19.4157 2.77697C19.7079 3.06925 19.8541 3.39707 19.8541 3.76044V14.6615C19.8541 15.0248 19.7079 15.3527 19.4157 15.6449C19.1234 15.9372 18.7956 16.0834 18.4322 16.0834H2.31763ZM9.4033 13.0026H16.9866V12.5524C16.9866 11.8888 16.6509 11.3477 15.9795 10.9291C15.308 10.5104 14.3799 10.3011 13.195 10.3011C12.0101 10.3011 11.0819 10.5104 10.4105 10.9291C9.73903 11.3477 9.4033 11.8888 9.4033 12.5524V13.0026ZM13.195 8.87919C13.6689 8.87919 14.0757 8.70935 14.4154 8.36968C14.7551 8.03001 14.9249 7.6232 14.9249 7.14924C14.9249 6.67528 14.7551 6.26847 14.4154 5.9288C14.0757 5.58913 13.6689 5.41929 13.195 5.41929C12.721 5.41929 12.3142 5.58913 11.9745 5.9288C11.6349 6.26847 11.465 6.67528 11.465 7.14924C11.465 7.6232 11.6349 8.03001 11.9745 8.36968C12.3142 8.70935 12.721 8.87919 13.195 8.87919Z"
+                    fill="white"
                   />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Sign In</span>
-              </a>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Shared with me
+                </span>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
-                class="flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              <Link
+                to="#"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
               >
                 <svg
-                  class="shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M5 3h2v18H5V3zm6 6h2v12h-2V9zm6-4h2v16h-2V5z" />
+                </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">
+                  Statistics
+                </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="#"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              >
+                <svg
+                  className="w-5 h-5 text-white dark:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
                   fill="currentColor"
-                  viewBox="0 0 20 20"
+                  viewBox="0 0 24 24"
                 >
-                  <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
-                  <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
-                  <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 6a2 2 0 0 1 2-2h5.532a2 2 0 0 1 1.536.72l1.9 2.28H3V6Zm0 3v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9H3Z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Sign Up</span>
-              </a>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">My files</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="#"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 20 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.19471 18.9791L7.72075 15.9932C7.42058 15.8826 7.10461 15.7325 6.77284 15.5429C6.44106 15.3534 6.14879 15.1559 5.89601 14.9505L3.09966 16.2302L0.895752 12.3437L3.45513 10.4716C3.42353 10.3294 3.40378 10.1675 3.39588 9.98579C3.38798 9.8041 3.38403 9.64217 3.38403 9.49998C3.38403 9.35779 3.38798 9.19586 3.39588 9.01417C3.40378 8.83249 3.42353 8.67055 3.45513 8.52837L0.895752 6.65623L3.09966 2.76977L5.89601 4.04946C6.14879 3.84408 6.44106 3.64659 6.77284 3.45701C7.10461 3.26743 7.42058 3.12524 7.72075 3.03045L8.19471 0.020813H12.5551L13.0291 3.00675C13.3293 3.11734 13.6492 3.26348 13.9889 3.44516C14.3285 3.62685 14.6168 3.82828 14.8538 4.04946L17.6502 2.76977L19.8541 6.65623L17.2947 8.48097C17.3263 8.63896 17.3461 8.80879 17.354 8.99048C17.3619 9.17216 17.3658 9.34199 17.3658 9.49998C17.3658 9.65797 17.3619 9.82385 17.354 9.99764C17.3461 10.1714 17.3263 10.3373 17.2947 10.4953L19.8541 12.3437L17.6502 16.2302L14.8538 14.9505C14.601 15.1559 14.3127 15.3573 13.9889 15.5548C13.665 15.7523 13.3451 15.8984 13.0291 15.9932L12.5551 18.9791H8.19471ZM10.3749 12.5807C11.228 12.5807 11.9548 12.2805 12.5551 11.6802C13.1555 11.0798 13.4556 10.3531 13.4556 9.49998C13.4556 8.64686 13.1555 7.92012 12.5551 7.31977C11.9548 6.71942 11.228 6.41925 10.3749 6.41925C9.52179 6.41925 8.79506 6.71942 8.19471 7.31977C7.59436 7.92012 7.29419 8.64686 7.29419 9.49998C7.29419 10.3531 7.59436 11.0798 8.19471 11.6802C8.79506 12.2805 9.52179 12.5807 10.3749 12.5807Z"
+                    fill="white"
+                  />
+                </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">Settings</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="#"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg dark:text-white hover:bg-[#37A0EA] dark:hover:bg-[#37A0EA] group"
+              >
+                <svg
+                  className="w-5 h-5 text-white dark:text-white self-center"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+
+                <span className="flex-1 ms-3 whitespace-nowrap">Trash</span>
+              </Link>
             </li>
           </ul>
+          <div className="mt-6 p-4 rounded-lg  text-white">
+            {/* Cloud Icon + Title */}
+            <div className="flex items-center">
+              <svg
+                class="w-7 h-7 text-white dark:text-white"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M13.383 4.076a6.5 6.5 0 0 0-6.887 3.95A5 5 0 0 0 7 18h3v-4a2 2 0 0 1-1.414-3.414l2-2a2 2 0 0 1 2.828 0l2 2A2 2 0 0 1 14 14v4h4a4 4 0 0 0 .988-7.876 6.5 6.5 0 0 0-5.605-6.048Z" />
+                <path d="M12.707 9.293a1 1 0 0 0-1.414 0l-2 2a1 1 0 1 0 1.414 1.414l.293-.293V19a1 1 0 1 0 2 0v-6.586l.293.293a1 1 0 0 0 1.414-1.414l-2-2Z" />
+              </svg>
+
+              <span className="ml-2 font-semibold">My Storage</span>
+            </div>
+            {/* Usage Text & Progress Bar */}
+            <p className="mt-2 text-lg">Used: of 100GB</p>
+            <div className="w-full bg-white rounded-full h-2 mt-2">
+              <div
+                className="bg-blue-500 h-2 rounded-full"
+                style={{ width: "24%" }}
+              ></div>
+            </div>
+          </div>
         </div>
       </aside>
     </>
