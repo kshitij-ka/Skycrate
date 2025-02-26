@@ -4,11 +4,11 @@ const NotFoundPage = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
       {/* Placeholder SVG - Replace this with your SVG */}
-			<img 
-				src="public/404.png"
-				style={{ width: '30%', height: 'auto' }}
-				alt="404 Not Found" 
-			></img>
+      <img
+        src="/404.png"
+        style={{ width: "30%", height: "auto" }}
+        alt="404 Not Found"
+      ></img>
       {/* Page number and title */}
       <h2 className="text-2xl font-bold mb-4 mt-4">Page Not Found</h2>
 
