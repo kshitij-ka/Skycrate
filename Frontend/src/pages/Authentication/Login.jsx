@@ -1,5 +1,4 @@
 import React from "react";
-import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
@@ -16,19 +15,7 @@ const Login = () => {
         <h1 className="text-2xl font-bold mb-6 text-gray-900 text-center">
           Log in
         </h1>
-        <button className="flex items-center justify-center w-full py-3 mb-4 border border-gray-300 rounded-lg hover:bg-gray-50">
-          <FcGoogle className="text-xl mr-2" />
-          <span className="text-gray-700 font-medium">
-            Continue with Google
-          </span>
-        </button>
-        <div className="flex items-center my-4">
-          <div className="flex-grow border-t border-gray-300" />
-          <span className="px-2 text-gray-500 text-sm">
-            Or login with email
-          </span>
-          <div className="flex-grow border-t border-gray-300" />
-        </div>
+
         <div className="mb-4">
           <div className="flex items-center">
             <input
@@ -37,14 +24,6 @@ const Login = () => {
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-l-lg px-4 py-4 focus:outline-none focus:border-blue-500"
             />
-          </div>
-          <div className="mb-6">
-            <Link
-              to="#!"
-              className="text-sm text-blue-600 hover:underline inline-block text-center"
-            >
-              Login via OTP
-            </Link>
           </div>
         </div>
         <div className="mb-1">
@@ -58,7 +37,7 @@ const Login = () => {
             <button
               type="button"
               onClick={togglePassword}
-              className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
+              className="absolute right-2 top-4 text-2xl text-gray-500 hover:text-gray-700"
             >
               {showPassword ? <FiEyeOff /> : <FiEye />}
             </button>
