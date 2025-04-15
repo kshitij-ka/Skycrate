@@ -1,16 +1,23 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
+import FileList from "../../components/FileList";
 import FileUpload from "../../components/FileUpload";
 import { FiPlus } from "react-icons/fi";
 
 const Dashboard = () => {
-  const handlefetch = async () => {
-    fetch("http://192.168.29.61:8080/api/hdfs/listFiles?hdfsPath=/")
-      .then((response) => response.json())
-      .then((data) => console.log(data));
-  };
+  const [files, setFiles] = React.useState([]);
 
-  handlefetch();
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        "http://192.168.29.61:8080/api/hdfs/listFiles?hdfsPath=/"
+      );
+      const data = await response.json();
+      setFiles(data);
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       {/* <!-- Main modal --> */}
@@ -91,6 +98,7 @@ const Dashboard = () => {
             </button>
           </div>
 
+          <FileList files={files}></FileList>
           <section className="w-full flex justify-end items-center min-h-160">
             {/* <!-- Modal toggle --> */}
           </section>
