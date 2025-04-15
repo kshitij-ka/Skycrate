@@ -263,7 +263,6 @@ const DrivethruLandingPage = () => {
                 </Link>
               </div>
             </div>
-
             {/* Right Side - Image */}
             <div className="w-full md:w-1/2 flex justify-center order-2 md:order-1">
               <div className="relative p-4 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl max-w-xs sm:max-w-lg md:max-w-md lg:max-w-lvh">

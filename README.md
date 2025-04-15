@@ -1,14 +1,26 @@
 # CC-MINI (2025)
 
-`frontend` branch is intended only for pushing frontend files within the [Frontend](Frontend/) folder.
-
 ---
 
-Design: https://www.figma.com/design/37nOQ4PtUUGVTmPAQJ1lwU/Drive-thru
+## Git config
 
-## Current state
+Create a new directory for this project, and run these following commands for initalizing git:
 
-| ![landing](Frontend/samples/landing.png) | ![login](Frontend/samples/login.jpg) | ![signup](Frontend/samples/signup.jpg) | ![dashboard](Frontend/samples/dashboard.jpg)
-| --- | --- | --- | --- |
-| [landing](Frontend/samples/landing.png) | [login](Frontend/samples/login.jpg) | [signup](Frontend/samples/signup.jpg) | [dashboard](Frontend/samples/dashboard.jpg)
+```shell
+git clone https://github.com/kshitij-ka/cc-mini.git
+cd cc-mini
+git config --local user.name "Your name"
+git config --local user.email "your@ema.il"
+git config --local core.autocrlf input # For Linux/MacOS users
+git config --local core.autocrlf true # For Windows users
+git checkout frontend # If you're working on frontend
+git checkout backend # If you're working on backend
+```
 
+## Where to push?
+
+- For frontend, please push to [Frontend](https://github.com/kshitij-ka/cc-mini/tree/frontend/Frontend) folder in the [frontend branch](https://github.com/kshitij-ka/cc-mini/tree/frontend).
+- For backend, please push to [Backend](https://github.com/kshitij-ka/cc-mini/tree/backend/Backend) folder in the [backend branch](https://github.com/kshitij-ka/cc-mini/tree/backend/).
+- I will be merging changes from both the branches in the main branch for deploying.
+
+---
