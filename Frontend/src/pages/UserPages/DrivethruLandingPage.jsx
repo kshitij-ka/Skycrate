@@ -234,7 +234,7 @@ const DrivethruLandingPage = () => {
                   </svg>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-black">
-                  Drive-thru
+                  Skycrate
                 </h1>
               </div>
 
@@ -268,7 +268,7 @@ const DrivethruLandingPage = () => {
               <div className="relative p-4 bg-gradient-to-r from-blue-50 to-emerald-50 rounded-2xl max-w-xs sm:max-w-lg md:max-w-md lg:max-w-lvh">
                 <img
                   src="/Dashboard.png"
-                  alt="Drive-thru Dashboard Interface"
+                  alt="Skycrate Dashboard Interface"
                   className="w-full rounded-xl shadow-2xl transition-shadow duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-emerald-500/5 rounded-2xl pointer-events-none"></div>

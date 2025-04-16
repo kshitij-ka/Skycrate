@@ -33,10 +33,10 @@ const Sidebar = () => {
                 <img
                   src="./image.png"
                   className="h-8 me-3"
-                  alt="Drive-thru Logo"
+                  alt="Skycrate Logo"
                 />
-                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-                  Drive-thru
+                <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
+                  Skycrate
                 </span>
               </Link>
             </div>
@@ -87,7 +87,7 @@ const Sidebar = () => {
                       className="text-lg font-medium text-white truncate dark:text-gray-300"
                       role="none"
                     >
-                      Drive-thru@Drive-thru.com
+                      Skycrate@Skycrate.com
                     </p>
                   </div>
                   <ul className="py-1" role="none">
