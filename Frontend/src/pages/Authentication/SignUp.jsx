@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 // const API_BASE_URL = process.env.REACT_APP_API_URL;
 const API_BASE_URL = import.meta.env.VITE_API_URL;
-
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -59,7 +58,7 @@ const SignUp = () => {
         toast.error(data.message || "Signup failed.", { id: toastId });
       }
     } catch (error) {
-      toast.error("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.", error);
     } finally {
       setLoading(false);
     }
@@ -170,8 +169,6 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-
 
 // // eslint-disable-next-line no-unused-vars
 // import React, { useState } from "react";

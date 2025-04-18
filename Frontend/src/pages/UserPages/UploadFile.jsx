@@ -1,11 +1,8 @@
-import React, { useState } from "react";
-// Adjust the import for FileUpload to the correct location:
+import { useState } from "react";
 import FileUploadModal from "../../components/FileUploadModal";
 const UploadFile = () => {
-  // Control modal visibility with state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Dummy callback or proper function if necessary
   const fetchFiles = () => {
     console.log("Upload succeeded, fetch or update file list here.");
   };
