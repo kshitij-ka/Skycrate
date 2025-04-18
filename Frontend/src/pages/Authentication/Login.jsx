@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast"; // Import React Hot Toast
-
 
 const API_URL = import.meta.env.VITE_API_URL; // Using .env variable
 
@@ -52,6 +51,14 @@ const Login = () => {
         // On success, store the token in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("expiresIn", data.expiresIn);
+        fetch(`${API_URL}/api/hdfs/getUsernameByEmail?email=${email}`)
+          .then((response) => response.text())
+          .then((username) => {
+            localStorage.setItem("username", username);
+          })
+          .catch((error) => {
+            console.error("Error fetching username:", error);
+          });
 
         // Show success toast
         toast.success("Login successful!");
@@ -65,7 +72,7 @@ const Login = () => {
     } catch (error) {
       // Dismiss the loading toast and show error
       toast.dismiss(toastId);
-      toast.error("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.", error);
     } finally {
       setLoading(false);
     }
