@@ -5,10 +5,11 @@
 ## Work distribution
 
 - Design: Kapil
-- Frontend: Shivani, Shriniwas, Ombase, Tejas, Sonali, Dinesh
-- Backend: Vedang, Lalit
+- Frontend: Ombase, Shriniwas, Dinesh, Lalit, Shivani, Pracheta, Vaibhavi
+- Backend: Vedang, Sonali, Lalit
 - DBMS: Lalit
 - HDFS: Sonali, Prajakta, Poonam
+- Deployment: Kshitij, Sahil
 
 ---
 
