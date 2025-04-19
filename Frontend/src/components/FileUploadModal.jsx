@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { setIsUploading } from "../store/UploadStatusSlice";
 
 const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
   const currentPath = useSelector((state) => state.path.currentPath);
+  const dispatch = useDispatch();
+  const isUploading = useSelector((state) => state.upload.isUploading);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
@@ -12,11 +15,13 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
   const [folderMessage, setFolderMessage] = useState("");
   const username = localStorage.getItem("username");
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleEsc);
+
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
 
@@ -48,7 +53,8 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
         setUploadMessage(`❌ Upload failed: ${errorText}`);
       } else {
         setUploadMessage("✅ File uploaded successfully!");
-        onUploadSuccess();
+        dispatch(setIsUploading(true)); // Dispatch the action to set isUploading to true
+        onUploadSuccess(); // Call the onUploadSuccess prop to notify the parent
         setTimeout(() => {
           setUploadMessage("");
           onClose();
@@ -89,7 +95,8 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
         setFolderMessage(`❌ Folder creation failed: ${errorText}`);
       } else {
         setFolderMessage("✅ Folder created successfully!");
-        onUploadSuccess();
+        dispatch(setIsUploading(true)); // Dispatch the action to set isUploading to true
+        onUploadSuccess(currentPath); // Call the onUploadSuccess prop after folder creation too
         setNewFolderName("");
         setTimeout(() => {
           setFolderMessage("");
