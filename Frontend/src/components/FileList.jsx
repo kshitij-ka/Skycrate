@@ -18,20 +18,24 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
-const username = localStorage.getItem("username");
-// const authToken = localStorage.getItem("token");
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
-// const token = localStorage.getItem("token");
+
 const FileTable = ({ initialPath }) => {
-  const [currentPath, setCurrentPathState] = useState(initialPath || "/");
+  // Read username dynamically to avoid stale null on first load
+  const username = localStorage.getItem("username") || "";
+  const userRoot = `/${username}`;
+
+  // Initialize currentPath only once with the correct userRoot
+  const [currentPath, setCurrentPathState] = useState(
+    () => initialPath || userRoot
+  );
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
   const isUploading = useSelector((state) => state.upload.isUploading);
+
   const getType = (entry) =>
     entry.trim().startsWith("📁") ? "Folder" : "File";
-
   const getName = (entry) => entry.trim().replace(/^📁\s*|^📄\s*/, "");
-
   const isFile = (entry) => getType(entry) === "File";
 
   const getIcon = (name, type) => {
@@ -85,7 +89,6 @@ const FileTable = ({ initialPath }) => {
         )}`
       );
       const data = await res.json();
-      // filter out indented children, only top-level entries
       const filtered = data.filter(
         (entry) => entry.match(/^ */)[0].length === 0
       );
@@ -99,18 +102,18 @@ const FileTable = ({ initialPath }) => {
   const deleteFileOrFolder = async (name, type, e) => {
     e.stopPropagation();
     try {
-      const hdfsPath =
-        currentPath === "/" ? `/${name}` : `${currentPath}/${name}`;
-      const encoded = encodeURIComponent(hdfsPath);
+      const hdfsPath = `${currentPath}/${name}`;
       const endpoint =
         type === "File"
-          ? `${API_URL}/api/hdfs/deleteFile?hdfsPath=${encoded}`
-          : `${API_URL}/api/hdfs/deleteFolder?hdfsPath=${encoded}`;
+          ? `${API_URL}/api/hdfs/deleteFile?hdfsPath=${encodeURIComponent(
+              hdfsPath
+            )}`
+          : `${API_URL}/api/hdfs/deleteFolder?hdfsPath=${encodeURIComponent(
+              hdfsPath
+            )}`;
 
       const resp = await fetch(endpoint, { method: "DELETE" });
-      if (!resp.ok) {
-        console.error("Deletion failed:", await resp.text());
-      }
+      if (!resp.ok) console.error("Deletion failed:", await resp.text());
       fetchFiles();
     } catch (err) {
       console.error("Failed to delete:", err);
@@ -123,60 +126,40 @@ const FileTable = ({ initialPath }) => {
   }, [currentPath, dispatch, isUploading]);
 
   const handleOpenFolder = (folderName) => {
-    const newPath =
-      currentPath === "/" ? `/${folderName}` : `${currentPath}/${folderName}`;
-    setCurrentPathState(newPath);
+    setCurrentPathState((prev) => `${prev}/${folderName}`);
   };
 
   const goBack = () => {
-    if (currentPath === "/") return;
+    if (currentPath === userRoot) return;
     const parts = currentPath.split("/").filter(Boolean);
     parts.pop();
-    setCurrentPathState(parts.length === 0 ? "/" : `/${parts.join("/")}`);
+    setCurrentPathState(parts.length === 0 ? userRoot : `/${parts.join("/")}`);
   };
 
   const handleFileDownload = async (hdfsPath, name, event) => {
-    event.stopPropagation(); // Prevent row click (if any)
+    event.stopPropagation();
     try {
-      const authToken = localStorage.getItem("token"); // Get JWT token from localStorage
-
+      const authToken = localStorage.getItem("token");
       const response = await fetch(
-        `${API_URL}/api/hdfs/downloadFile?hdfsEncPath=${hdfsPath}&localPath=${name}&username=${username}`,
+        `${API_URL}/api/hdfs/downloadFile?hdfsEncPath=${encodeURIComponent(
+          hdfsPath
+        )}&localPath=${name}&username=${username}`,
         {
           method: "POST",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
+          headers: { Authorization: `Bearer ${authToken}` },
         }
       );
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Download failed: ${errorText}`);
-      }
-
-      // Extract filename from response headers or fallback to 'name'
-      const contentDisposition = response.headers.get("Content-Disposition");
-      let downloadedFileName = name;
-      if (contentDisposition && contentDisposition.includes("filename=")) {
-        const match = contentDisposition.match(
-          /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
-        );
-        if (match) downloadedFileName = match[1];
-      }
-      console.log(
-        `${API_URL}/api/hdfs/downloadFile?hdfsEncPath=${hdfsPath}&localPath=${name}&username=${username}`,
-        authToken
-      );
+      if (!response.ok) throw new Error(await response.text());
       const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = downloadedFileName;
+      link.href = url;
+      link.download = name;
       document.body.appendChild(link);
       link.click();
       link.remove();
-      window.URL.revokeObjectURL(blobUrl);
+      window.URL.revokeObjectURL(url);
       fetchFiles();
     } catch (error) {
       console.error("Download failed:", error);
@@ -188,7 +171,7 @@ const FileTable = ({ initialPath }) => {
     <div className="relative overflow-x-auto rounded-2xl shadow-lg border border-blue-200">
       <div className="flex items-center justify-between px-6 py-4 bg-blue-100 text-black font-semibold text-sm">
         <span className="truncate max-w-[80%]">Path: {currentPath}</span>
-        {currentPath !== "/" && (
+        {currentPath !== userRoot && (
           <button
             onClick={goBack}
             className="flex items-center gap-1 text-blue-600 hover:underline text-sm"
@@ -206,7 +189,6 @@ const FileTable = ({ initialPath }) => {
             <th className="px-6 py-3">Actions</th>
           </tr>
         </thead>
-
         <tbody>
           {files.length === 0 ? (
             <tr>
@@ -218,8 +200,7 @@ const FileTable = ({ initialPath }) => {
             files.map((entry, idx) => {
               const name = getName(entry);
               const type = getType(entry);
-              const hdfsPath =
-                currentPath === "/" ? `/${name}` : `${currentPath}/${name}`;
+              const hdfsPath = `${currentPath}/${name}`;
 
               return (
                 <tr
