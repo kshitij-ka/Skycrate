@@ -6,7 +6,6 @@ import { setIsUploading } from "../store/UploadStatusSlice";
 const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
   const currentPath = useSelector((state) => state.path.currentPath);
   const dispatch = useDispatch();
-  const isUploading = useSelector((state) => state.upload.isUploading);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
@@ -14,7 +13,7 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
   const [creatingFolder, setCreatingFolder] = useState(false);
   const [folderMessage, setFolderMessage] = useState("");
   const username = localStorage.getItem("username");
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const handleEsc = (e) => {

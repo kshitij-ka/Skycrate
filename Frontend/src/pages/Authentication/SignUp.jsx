@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-// const API_BASE_URL = process.env.REACT_APP_API_URL;
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -14,7 +15,6 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,11 +34,12 @@ const SignUp = () => {
       return;
     }
 
-    try {
-      setLoading(true);
-      const toastId = toast.loading("Registering...");
+    setLoading(true);
+    const toastId = toast.loading("Registering...");
 
-      const response = await fetch(`${API_BASE_URL}/api/signup`, {
+    try {
+      // 1️⃣ Sign up the user
+      const signupRes = await fetch(`${API_URL}/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -48,17 +49,37 @@ const SignUp = () => {
           password: formData.password,
         }),
       });
+      const signupData = await signupRes.json();
 
-      const data = await response.json();
-
-      if (response.ok) {
-        toast.success("Successfully registered!", { id: toastId });
-        // Optionally redirect to login
-      } else {
-        toast.error(data.message || "Signup failed.", { id: toastId });
+      if (!signupRes.ok) {
+        toast.error(signupData.message || "Signup failed.", { id: toastId });
+        return;
       }
+
+      // 2️⃣ Build username and create HDFS folder
+      const username =
+        `${formData.firstname}${formData.lastname}`.toLowerCase();
+      const folderRes = await fetch(
+        `${API_URL}/api/hdfs/createFolder?hdfsPath=/${username}`,
+        { method: "POST" }
+      );
+
+      if (!folderRes.ok) {
+        // you might choose to roll back user creation or just notify
+        toast.error("Failed to create user folder.", { id: toastId });
+      } else {
+        toast.success("Successfully registered and folder created!", {
+          id: toastId,
+        });
+      }
+
+      // 3️⃣ Redirect to login after a short delay
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
     } catch (error) {
-      toast.error("An error occurred. Please try again.", error);
+      console.error(error);
+      toast.error("An error occurred. Please try again.", { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -69,7 +90,6 @@ const SignUp = () => {
       <Toaster position="top-right" />
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Sign Up</h1>
-
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -112,7 +132,7 @@ const SignUp = () => {
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowPassword((v) => !v)}
               className="absolute right-3 top-4 text-2xl text-gray-500 hover:text-gray-700"
             >
               {showPassword ? <FiEyeOff /> : <FiEye />}
@@ -132,7 +152,7 @@ const SignUp = () => {
             />
             <button
               type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              onClick={() => setShowConfirmPassword((v) => !v)}
               className="absolute right-3 top-4 text-2xl text-gray-500 hover:text-gray-700"
             >
               {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
@@ -169,90 +189,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// // eslint-disable-next-line no-unused-vars
-// import React, { useState } from "react";
-// import { FiEye, FiEyeOff } from "react-icons/fi";
-// import { Link } from "react-router-dom";
-
-// const SignUp = () => {
-//   const [showPassword, setShowPassword] = useState(false);
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-//   return (
-//     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-//       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-//         <h1 className="text-2xl font-bold text-gray-900  mb-6">Sign Up</h1>
-
-//         {/* Form Fields */}
-//         <div className="space-y-4">
-//           <input
-//             type="text"
-//             placeholder="First Name"
-//             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-//           />
-//           <input
-//             type="text"
-//             placeholder="Last Name"
-//             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-//           />
-//           <input
-//             type="email"
-//             placeholder="Enter your email"
-//             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-//           />
-
-//           {/* Password Field */}
-//           <div className="relative">
-//             <input
-//               type={showPassword ? "text" : "password"}
-//               placeholder="Enter your password"
-//               className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-//             />
-//             <button
-//               type="button"
-//               onClick={() => setShowPassword(!showPassword)}
-//               className="absolute right-3 top-4 text-2xl text-gray-500 hover:text-gray-700"
-//             >
-//               {showPassword ? <FiEyeOff /> : <FiEye />}
-//             </button>
-//           </div>
-
-//           {/* Confirm Password Field */}
-//           <div className="relative">
-//             <input
-//               type={showConfirmPassword ? "text" : "password"}
-//               placeholder="Confirm your password"
-//               className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
-//             />
-//             <button
-//               type="button"
-//               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-//               className="absolute right-3 top-4 text-2xl text-gray-500 hover:text-gray-700"
-//             >
-//               {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Sign Up Button */}
-//         <button className="w-full mt-6 py-3 bg-gradient-to-r from-[#10B981] to-[#07533A] hover:from-[#0E458C] hover:to-[#1877F2] text-white font-semibold rounded-lg shadow-md transition duration-300">
-//           Sign Up
-//         </button>
-
-//         {/* Redirect to Login */}
-//         <p className="text-center mt-4 text-gray-700">
-//           Already have an account?{" "}
-//           <Link
-//             to="/login"
-//             className="text-blue-500 hover:underline font-medium"
-//           >
-//             Login
-//           </Link>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SignUp;
