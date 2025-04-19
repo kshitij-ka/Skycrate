@@ -42,22 +42,38 @@ const Footer = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-white">Drive-thru</h3>
+              <h3 className="text-2xl font-bold text-white">Skycrate</h3>
             </div>
             <p className="text-white/90">
               Your secure cloud storage solution for all your digital needs.
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Facebook className="w-5 h-5 text-white cursor-pointer hover:text-cyan-200 transition-all duration-200 transform hover:scale-110" />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Twitter className="w-5 h-5 text-white cursor-pointer hover:text-cyan-200 transition-all duration-200 transform hover:scale-110" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Instagram className="w-5 h-5 text-white cursor-pointer hover:text-cyan-200 transition-all duration-200 transform hover:scale-110" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Linkedin className="w-5 h-5 text-white cursor-pointer hover:text-cyan-200 transition-all duration-200 transform hover:scale-110" />
               </a>
             </div>
@@ -117,7 +133,8 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Stay Updated</h4>
             <p className="text-white/90 mb-4">
-              Get exclusive tips, updates on new features, and special offers directly in your inbox.
+              Get exclusive tips, updates on new features, and special offers
+              directly in your inbox.
             </p>
             <div className="space-y-4">
               <input
@@ -141,15 +158,24 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center text-white/90 text-sm">
-          <p>© {new Date().getFullYear()} Drive-Thru. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Skycrate. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block">
+            <a
+              href="#"
+              className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
+            >
               Privacy Policy
             </a>
-            <a href="#" className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block">
+            <a
+              href="#"
+              className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
+            >
               Terms of Service
             </a>
-            <a href="#" className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block">
+            <a
+              href="#"
+              className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
+            >
               Cookie Policy
             </a>
           </div>
