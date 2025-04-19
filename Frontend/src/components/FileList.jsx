@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPath } from "../store/pathSlice";
 import {
   FileText,
@@ -26,7 +26,7 @@ const FileTable = ({ initialPath }) => {
   const [currentPath, setCurrentPathState] = useState(initialPath || "/");
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
-
+  const isUploading = useSelector((state) => state.upload.isUploading);
   const getType = (entry) =>
     entry.trim().startsWith("📁") ? "Folder" : "File";
 
@@ -120,7 +120,7 @@ const FileTable = ({ initialPath }) => {
   useEffect(() => {
     dispatch(setCurrentPath(currentPath));
     fetchFiles();
-  }, [currentPath]);
+  }, [currentPath, dispatch, isUploading]);
 
   const handleOpenFolder = (folderName) => {
     const newPath =
@@ -164,7 +164,10 @@ const FileTable = ({ initialPath }) => {
         );
         if (match) downloadedFileName = match[1];
       }
-
+      console.log(
+        `${API_URL}/api/hdfs/downloadFile?hdfsEncPath=${hdfsPath}&localPath=${name}&username=${username}`,
+        authToken
+      );
       const blob = await response.blob();
       const blobUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
