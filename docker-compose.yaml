@@ -4,7 +4,7 @@ services:
     container_name: skycrate-hadoop-namenode
     restart: on-failure:5
     ports:
-      - "9870:9870" # Web IU
+      - "9870:9870" # Web UI
       #- "9000:9000" # Hadoop; No need to expose since backend will access internally
     user: "hdoop:hdoop"  
     security_opt:
