@@ -1,0 +1,151 @@
+services:
+  namenode:
+    image: kshitijka/hadoop-namenode:3.4.1
+    container_name: skycrate-hadoop-namenode
+    restart: on-failure:5
+    ports:
+      - "9870:9870" # Web IU
+      #- "9000:9000" # Hadoop; No need to expose since backend will access internally
+    user: "hdoop:hdoop"  
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    volumes:
+      - skycrate-hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=skycreate
+    env_file:
+      - ./hadoop.env
+
+  datanode:
+    image: kshitijka/hadoop-datanode:3.4.1
+    container_name: skycrate-hadoop-datanode-1
+    restart: on-failure:5
+    user: "hdoop:hdoop"  
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    volumes:
+      - skycrate-hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+    # healthcheck:
+    #   disable: true
+
+  resourcemanager:
+    image: kshitijka/hadoop-resourcemanager:3.4.1
+    container_name: skycrate-hadoop-resourcemanager
+    restart: on-failure:10
+    user: "hdoop:hdoop"  
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop.env
+    # healthcheck:
+    #   disable: true
+
+  nodemanager:
+    image: kshitijka/hadoop-nodemanager:3.4.1
+    container_name: skycrate-hadoop-nodemanager
+    restart: on-failure:5
+    user: "hdoop:hdoop"  
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+    # healthcheck:
+    #   disable: true
+
+  historyserver:
+    image: kshitijka/hadoop-historyserver:3.4.1
+    container_name: skycrate-hadoop-historyserver
+    restart: on-failure:5
+    user: "hdoop:hdoop"  
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - skycrate-hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+    # healthcheck:
+    #   disable: true
+
+  db:
+    image: mysql:8
+    container_name: skycrate-db
+    restart: on-failure:5
+    user: "1000:1000"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    environment:
+      - MYSQL_DATABASE=skycrate
+      - MYSQL_USER=skycrateDB
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+    volumes:
+      - skycrate-db:/var/lib/mysql
+    env_file:
+      - .env
+
+  frontend:
+    image: kshitijka/skycrate-frontend:1.0
+    container_name: skycrate-frontend
+    restart: on-failure:5
+    user: "skycrateFront:skycrateFront"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    ports:
+      - "80:8080"
+    volumes:
+      - skycrate-frontend:/app
+    depends_on:
+      - backend
+
+  backend:
+    image: kshitijka/skycrate-backend:1.0
+    container_name: skycrate-backend
+    restart: on-failure:5
+    user: "skycrateBack:skycrateBack"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - skycrate-internal
+    ports:
+      - "8081:8081" # If you change, update in Frontend/.env file too and rebuild the image
+    environment:
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - skycrate-backend:/app
+
+volumes:
+  skycrate-hadoop_namenode:
+  skycrate-hadoop_datanode:
+  skycrate-hadoop_historyserver:
+  skycrate-db:
+  skycrate-frontend:
+  skycrate-backend:
+
+networks:
+  skycrate-internal:
+    external: false
+    driver: bridge
