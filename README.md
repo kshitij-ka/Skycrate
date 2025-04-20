@@ -1,26 +1,48 @@
-# CC-MINI (2025)
+# Skycrate
 
 ---
 
-## Git config
+## Versions
+- Hadoop: 3.4.1
+- Java: 17
+- Node: 22.14.0
+- NPM: 10.9.2
 
-Create a new directory for this project, and run these following commands for initalizing git:
+## How to run?
+
+> [!IMPORTANT]
+> You must have [Docker](https://www.docker.com/products/docker-desktop/) and [Git](https://git-scm.com/) installed on your system.
+
+1. Clone this repository:
 
 ```shell
-git clone https://github.com/kshitij-ka/cc-mini.git
-cd cc-mini
-git config --local user.name "Your name"
-git config --local user.email "your@ema.il"
-git config --local core.autocrlf input # For Linux/MacOS users
-git config --local core.autocrlf true # For Windows users
-git checkout frontend # If you're working on frontend
-git checkout backend # If you're working on backend
+git clone https://git.kska.io/notkshitij/Skycrate.git
 ```
 
-## Where to push?
+2. Change into the directory:
 
-- For frontend, please push to [Frontend](https://github.com/kshitij-ka/cc-mini/tree/frontend/Frontend) folder in the [frontend branch](https://github.com/kshitij-ka/cc-mini/tree/frontend).
-- For backend, please push to [Backend](https://github.com/kshitij-ka/cc-mini/tree/backend/Backend) folder in the [backend branch](https://github.com/kshitij-ka/cc-mini/tree/backend/).
-- I will be merging changes from both the branches in the main branch for deploying.
+```shell
+cd ./Skycrate
+```
+
+3. Create a `.env` file inside the directory containing the following variables:
+
+```env
+MYSQL_PASSWORD=<set-a-strong-password>
+```
+
+> [!NOTE]
+> Please choose a strong password, since it will be used for your MySQL database.
+
+4. Execute the Docker Compose file:
+
+```shell
+docker-compose -f docker-compose.yaml up -d
+```
+
+> [!TIP]
+> Use `-d` flag to run in detached mode.
+
+5. Visit `localhost:80` to enjoy using Skycrate!
 
 ---
