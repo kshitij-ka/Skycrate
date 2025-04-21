@@ -43,6 +43,9 @@ docker-compose -f docker-compose.yaml up -d
 > [!TIP]
 > Use `-d` flag to run in detached mode.
 
-5. Visit `localhost:80` to enjoy using Skycrate!
+5. Visit `localhost:8080` to enjoy using Skycrate!
+
+> [!NOTE]
+> To stop and remove all the containers, run `docker compose down`
 
 ---
