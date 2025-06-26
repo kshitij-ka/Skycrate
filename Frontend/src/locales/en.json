@@ -58,7 +58,36 @@
   "signup_failed": "Signup failed.",
   "folder_creation_failed": "Failed to create user folder.",
   "signup_success": "Successfully registered and folder created!",
-  "an_error_occurred": "An error occurred. Please try again."
+  "an_error_occurred": "An error occurred. Please try again.",
+
+  "footer_brand": "Skycrate",
+  "footer_tagline": "Your secure cloud storage solution for all your digital needs.",
+  "footer_quick_links": "Quick Links",
+  "footer_about_us": "About Us",
+  "footer_features": "Features",
+  "footer_how_it_works": "How It Works",
+  "footer_contact": "Contact",
+  "footer_email": "support@drivethru.com",
+  "footer_phone": "+91 3628206234",
+  "footer_address": "123 Cloud Street, Digital City",
+  "footer_newsletter_title": "Stay Updated",
+  "footer_newsletter_desc": "Get exclusive tips, updates on new features, and special offers directly in your inbox.",
+  "footer_newsletter_placeholder": "Enter your email",
+  "footer_newsletter_button": "Subscribe to Newsletter",
+  "subscribe_success": "You have successfully subscribed!",
+  "footer_rights": "All rights reserved.",
+  "footer_privacy_policy": "Privacy Policy",
+  "footer_terms_of_service": "Terms of Service",
+  "footer_cookie_policy": "Cookie Policy",
+
+  "sidebar_logging_out": "Logging out...",
+  "sidebar_logged_out": "Logged out successfully!",
+  "sidebar_open_sidebar": "Open sidebar",
+  "sidebar_brand": "Skycrate",
+  "sidebar_open_user_menu": "Open user menu",
+  "sidebar_user_photo": "User Photo",
+  "sidebar_logout": "Log out",
+  "sidebar_starred": "Starred"
 
 
 }

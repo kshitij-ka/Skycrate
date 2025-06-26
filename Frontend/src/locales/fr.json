@@ -57,7 +57,36 @@
   "signup_failed": "Échec de l'inscription.",
   "failed_create_folder": "Échec de la création du dossier utilisateur.",
   "signup_success": "Inscription réussie et dossier créé !",
-  "an_error_occurred": "Une erreur s'est produite. Veuillez réessayer."
+  "an_error_occurred": "Une erreur s'est produite. Veuillez réessayer.",
+
+  "footer_brand": "Skycrate",
+  "footer_tagline": "Votre solution de stockage cloud sécurisée pour tous vos besoins numériques.",
+  "footer_quick_links": "Liens rapides",
+  "footer_about_us": "À propos",
+  "footer_features": "Fonctionnalités",
+  "footer_how_it_works": "Comment ça marche",
+  "footer_contact": "Contact",
+  "footer_email": "support@drivethru.com",
+  "footer_phone": "+91 3628206234",
+  "footer_address": "123 Rue du Cloud, Ville Digitale",
+  "footer_newsletter_title": "Restez informé",
+  "footer_newsletter_desc": "Recevez des conseils exclusifs, des mises à jour sur les nouvelles fonctionnalités et des offres spéciales directement dans votre boîte de réception.",
+  "footer_newsletter_placeholder": "Entrez votre e-mail",
+  "footer_newsletter_button": "S'abonner à la newsletter",
+  "subscribe_success": "Vous vous êtes abonné avec succès !",
+  "footer_rights": "Tous droits réservés.",
+  "footer_privacy_policy": "Politique de confidentialité",
+  "footer_terms_of_service": "Conditions d'utilisation",
+  "footer_cookie_policy": "Politique relative aux cookies",
+
+  "sidebar_logging_out": "Déconnexion...",
+  "sidebar_logged_out": "Déconnecté avec succès !",
+  "sidebar_open_sidebar": "Ouvrir la barre latérale",
+  "sidebar_brand": "Skycrate",
+  "sidebar_open_user_menu": "Ouvrir le menu utilisateur",
+  "sidebar_user_photo": "Photo de l'utilisateur",
+  "sidebar_logout": "Se déconnecter",
+  "sidebar_starred": "Favoris"
 
 
 }

@@ -8,15 +8,17 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import { useTranslation } from "react-i18next"; // for multilinguality
 
 const Footer = () => {
+  const { t } = useTranslation(); // for multilinguality
   const [email, setEmail] = useState("");
 
   //Currently storing user email in localstorage
   const handleSubscribe = () => {
     if (email.trim() !== "") {
       localStorage.setItem("subscribedEmail", email);
-      alert("You have successfully subscribed!");
+      alert(t("subscribe_success")); 
       setEmail("");
     }
   };
@@ -42,10 +44,10 @@ const Footer = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold text-white">Skycrate</h3>
+              <h3 className="text-2xl font-bold text-white">{t("footer_brand")}</h3>
             </div>
             <p className="text-white/90">
-              Your secure cloud storage solution for all your digital needs.
+              {t("footer_tagline")}
             </p>
             <div className="flex space-x-4">
               <a
@@ -81,14 +83,14 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Quick Links</h4>
+            <h4 className="font-semibold text-white mb-4">{t("footer_quick_links")}</h4>
             <ul className="space-y-2">
               <li>
                 <a
                   href="#about"
                   className="text-white/90 hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
                 >
-                  About Us
+                  {t("footer_about_us")}
                 </a>
               </li>
               <li>
@@ -96,7 +98,7 @@ const Footer = () => {
                   href="#features"
                   className="text-white/90 hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
                 >
-                  Features
+                  {t("footer_features")}
                 </a>
               </li>
               <li>
@@ -104,7 +106,7 @@ const Footer = () => {
                   href="#howItWorks"
                   className="text-white/90 hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
                 >
-                  How It Works
+                  {t("footer_how_it_works")}
                 </a>
               </li>
             </ul>
@@ -112,43 +114,42 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Contact</h4>
+            <h4 className="font-semibold text-white mb-4">{t("footer_contact")}</h4>
             <ul className="space-y-2">
               <li className="flex items-center text-white/90 hover:text-white group transition-colors duration-200">
                 <Mail className="w-4 h-4 mr-2 group-hover:text-cyan-200" />
-                support@drivethru.com
+                {t("footer_email")}
               </li>
               <li className="flex items-center text-white/90 hover:text-white group transition-colors duration-200">
                 <Phone className="w-4 h-4 mr-2 group-hover:text-cyan-200" />
-                +91 3628206234
+                {t("footer_phone")}
               </li>
               <li className="flex items-center text-white/90 hover:text-white group transition-colors duration-200">
                 <MapPin className="w-4 h-4 mr-2 group-hover:text-cyan-200" />
-                123 Cloud Street, Digital City
+                {t("footer_address")}
               </li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h4 className="font-semibold text-white mb-4">Stay Updated</h4>
+            <h4 className="font-semibold text-white mb-4">{t("footer_newsletter_title")}</h4>
             <p className="text-white/90 mb-4">
-              Get exclusive tips, updates on new features, and special offers
-              directly in your inbox.
+              {t("footer_newsletter_desc")}
             </p>
             <div className="space-y-4">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t("footer_newsletter_placeholder")}
                 className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:bg-white/20 transition-all duration-200 outline-none focus:ring-2 focus:ring-white/30"
               />
               <button
                 onClick={handleSubscribe}
                 className="w-full px-4 py-2 rounded-md bg-white text-blue-600 font-medium hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105"
               >
-                Subscribe to Newsletter
+                {t("footer_newsletter_button")}
               </button>
             </div>
           </div>
@@ -158,25 +159,25 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center text-white/90 text-sm">
-          <p>© {new Date().getFullYear()} Skycrate. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t("footer_brand")}. {t("footer_rights")}</p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <a
               href="#"
               className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
             >
-              Privacy Policy
+              {t("footer_privacy_policy")}
             </a>
             <a
               href="#"
               className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
             >
-              Terms of Service
+              {t("footer_terms_of_service")}
             </a>
             <a
               href="#"
               className="hover:text-white transition-all duration-200 hover:translate-x-1 inline-block"
             >
-              Cookie Policy
+              {t("footer_cookie_policy")}
             </a>
           </div>
         </div>
