@@ -28,7 +28,37 @@
 
   "not_found_title": "Page Not Found",
   "not_found_description": "Sorry, we couldn't find the page you were looking for. It may have been moved or deleted.",
-  "go_home": "Go Home"
+  "go_home": "Go Home",
+
+  "login_title": "Log in",
+  "email_placeholder": "Enter your email",
+  "password_placeholder": "Enter your password",
+  "forgot_password": "Forgot password?",
+  "logging_in": "Logging In...",
+  "login": "Login",
+  "dont_have_account": "Don’t have an account?",
+  "sign_up": "Sign up",
+  "login_successful": "Login successful!",
+  "login_failed": "Login failed.",
+  "an_error_occurred": "An error occurred. Please try again.",
+  "logging_in_toast": "Logging in...",
+
+  "signup_title": "Sign Up",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "email_placeholder": "Enter your email",
+  "password_placeholder": "Enter your password",
+  "confirm_password_placeholder": "Confirm your password",
+  "signing_up": "Signing Up...",
+  "sign_up": "Sign Up",
+  "already_have_account": "Already have an account?",
+  "login": "Login",
+  "passwords_do_not_match": "Passwords do not match.",
+  "registering": "Registering...",
+  "signup_failed": "Signup failed.",
+  "folder_creation_failed": "Failed to create user folder.",
+  "signup_success": "Successfully registered and folder created!",
+  "an_error_occurred": "An error occurred. Please try again."
 
 
 }

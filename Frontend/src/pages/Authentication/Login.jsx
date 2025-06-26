@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast"; // Import React Hot Toast
+import { useTranslation } from "react-i18next"; // for multilinguality
 
 const API_URL = import.meta.env.VITE_API_URL; // Using .env variable
 
 const Login = () => {
+  const { t } = useTranslation(); // for multilinguality
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +30,7 @@ const Login = () => {
     setLoading(true);
 
     // Show loading toast
-    const toastId = toast.loading("Logging in...");
+    const toastId = toast.loading(t("logging_in_toast"));
 
     try {
       const response = await fetch(`${API_URL}/api/login`, {
@@ -61,18 +63,17 @@ const Login = () => {
           });
 
         // Show success toast
-        toast.success("Login successful!");
-
+        toast.success(t("login_successful"));
         // Redirect to Dashboard
         navigate("/dashboard");
       } else {
         // Show error toast if login fails
-        toast.error(data.message || "Login failed.");
+        toast.error(data.message || t("login_failed"));
       }
     } catch (error) {
       // Dismiss the loading toast and show error
       toast.dismiss(toastId);
-      toast.error("An error occurred. Please try again.", error);
+      toast.error(t("an_error_occurred"));
     } finally {
       setLoading(false);
     }
@@ -82,7 +83,7 @@ const Login = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-4xl shadow-lg p-8">
         <h1 className="text-2xl font-bold mb-6 text-gray-900 text-center">
-          Log in
+          {t("login_title")}
         </h1>
 
         <form onSubmit={handleSubmit}>
@@ -91,7 +92,7 @@ const Login = () => {
               <input
                 type="email"
                 id="email"
-                placeholder="Enter your email"
+                placeholder={t("email_placeholder")}
                 className="w-full border border-gray-300 rounded-l-lg px-4 py-4 focus:outline-none focus:border-blue-500"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +105,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
-                placeholder="Enter your password"
+                placeholder={t("password_placeholder")}
                 className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:border-blue-500 pr-10"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -124,7 +125,7 @@ const Login = () => {
               to="#!"
               className="text-sm text-blue-600 hover:underline inline-block"
             >
-              Forgot password?
+              {t("forgot_password")}
             </Link>
           </div>
           <button
@@ -132,17 +133,17 @@ const Login = () => {
             disabled={loading}
             className="w-full py-3 bg-gradient-to-r from-[#1877F2] to-[#0E458C] hover:from-[#0E458C] hover:to-[#1877F2] text-white font-semibold rounded-full shadow-md transition duration-300"
           >
-            {loading ? "Logging In..." : "Login"}
+            {loading ? t("logging_in") : t("login")}
           </button>
         </form>
         <div className="text-center mt-6">
           <p className="text-gray-700">
-            Don’t have an account?{" "}
+            {t("dont_have_account")}{" "}
             <Link
               to="/signup"
               className="text-emerald-500 hover:underline font-medium"
             >
-              Sign up
+              {t("sign_up")}
             </Link>
           </p>
         </div>

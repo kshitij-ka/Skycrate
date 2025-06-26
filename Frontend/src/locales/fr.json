@@ -28,7 +28,36 @@
 
   "not_found_title": "Page non trouvée",
   "not_found_description": "Désolé, nous n'avons pas pu trouver la page que vous cherchiez. Elle a peut-être été déplacée ou supprimée.",
-  "go_home": "Accueil"
+  "go_home": "Accueil",
+
+  "login_title": "Connexion",
+  "email_placeholder": "Entrez votre e-mail",
+  "password_placeholder": "Entrez votre mot de passe",
+  "forgot_password": "Mot de passe oublié ?",
+  "logging_in": "Connexion...",
+  "login": "Connexion",
+  "dont_have_account": "Vous n'avez pas de compte ?",
+  "sign_up": "S'inscrire",
+  "login_successful": "Connexion réussie !",
+  "login_failed": "Échec de la connexion.",
+  "an_error_occurred": "Une erreur s'est produite. Veuillez réessayer.",
+  "logging_in_toast": "Connexion en cours...",
+
+  "sign_up": "S'inscrire",
+  "first_name": "Prénom",
+  "last_name": "Nom de famille",
+  "email_placeholder": "Entrez votre e-mail",
+  "password_placeholder": "Entrez votre mot de passe",
+  "confirm_password_placeholder": "Confirmez votre mot de passe",
+  "already_have_account": "Vous avez déjà un compte ?",
+  "login": "Connexion",
+  "signing_up": "Inscription...",
+  "passwords_do_not_match": "Les mots de passe ne correspondent pas.",
+  "registering": "Enregistrement...",
+  "signup_failed": "Échec de l'inscription.",
+  "failed_create_folder": "Échec de la création du dossier utilisateur.",
+  "signup_success": "Inscription réussie et dossier créé !",
+  "an_error_occurred": "Une erreur s'est produite. Veuillez réessayer."
 
 
 }
