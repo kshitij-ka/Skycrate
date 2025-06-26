@@ -3,12 +3,14 @@ import { initReactI18next } from 'react-i18next';
 
 import en from './locales/en.json';
 import hi from './locales/hi.json';
+import mr from './locales/mr.json';
 import fr from './locales/fr.json';
 // import more languages as needed
 
 const resources = {
   en: { translation: en },
   hi: { translation: hi },
+  mr: { translation: mr },
   fr: { translation: fr },
   // add other languages here
 };

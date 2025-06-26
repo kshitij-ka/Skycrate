@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 const languages = [
   { code: 'en', label: 'English' },
   { code: 'hi', label: 'Hindi (हिंदी)' },
+  { code: 'mr', label: 'Marathi (मराठी)' },
   { code: 'fr', label: 'French (Français)' },
   // Add more languages as needed
 ];
