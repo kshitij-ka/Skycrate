@@ -1,15 +1,17 @@
 import Footer from "../../components/Footer";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // for multilinguality
 
 const DrivethruLandingPage = () => {
+  const { t } = useTranslation(); // for multilinguality
+
   const features = [
     {
-      title: "Easy Upload & Access",
-      description: "Drag & drop, instant access.",
+      title: t("feature_easy_upload_title"),
+      description: t("feature_easy_upload_desc"),
       icon: (
-        <svg
+         <svg
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
@@ -25,8 +27,8 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Secure & Private",
-      description: "End-to-end encryption.",
+      title: t("feature_secure_title"),
+      description: t("feature_secure_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -44,8 +46,8 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Seamless Sharing",
-      description: "Share files with one click.",
+      title: t("feature_sharing_title"),
+      description: t("feature_sharing_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -63,8 +65,8 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Access Anywhere",
-      description: "Works on all devices.",
+      title: t("feature_access_anywhere_title"),
+      description: t("feature_access_anywhere_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -85,8 +87,8 @@ const DrivethruLandingPage = () => {
 
   const howItWorks = [
     {
-      title: "Create an account",
-      description: "Sign up in seconds.",
+      title: t("how_create_account_title"),
+      description: t("how_create_account_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -104,8 +106,8 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Upload files",
-      description: "Drag & drop or select from your device.",
+      title: t("how_upload_files_title"),
+      description: t("how_upload_files_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -123,10 +125,10 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Manage files",
-      description: "Rename, move, or delete easily.",
+      title: t("how_manage_files_title"),
+      description: t("how_manage_files_desc"),
       icon: (
-        <svg
+       <svg
           className="w-6 h-6"
           fill="none"
           stroke="currentColor"
@@ -148,8 +150,8 @@ const DrivethruLandingPage = () => {
       ),
     },
     {
-      title: "Access anytime",
-      description: "Open files from any device.",
+      title: t("how_access_anytime_title"),
+      description: t("how_access_anytime_desc"),
       icon: (
         <svg
           className="w-6 h-6"
@@ -167,6 +169,7 @@ const DrivethruLandingPage = () => {
       ),
     },
   ];
+
 
   // UseEffect and handle....click function to handle set and handle the animation of features..
   const [activeIndex, setActiveIndex] = useState(0);
@@ -234,17 +237,16 @@ const DrivethruLandingPage = () => {
                   </svg>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-black">
-                  Skycrate
+                  {t("skycrate")}
                 </h1>
               </div>
 
               <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-black">
-                Store, Access & Share Your Files — Anytime, Anywhere!
+                {t("hero_subtitle")}
               </h2>
 
               <p className="text-gray-800 mb-6 md:mb-10 text-base md:text-lg">
-                A simple, secure, and fast cloud storage solution for all your
-                files. Upload, organize, and access with ease.
+                {t("hero_desc")}
               </p>
 
               {/* Buttons */}
@@ -253,13 +255,13 @@ const DrivethruLandingPage = () => {
                   to="/signup"
                   className="bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-full px-6 py-4 md:px-8 md:py-6 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Get Started
+                  {t("get_started")}
                 </Link>
                 <Link
                   to="/login"
                   className="bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full px-6 py-4 md:px-8 md:py-6 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Login
+                  {t("login")}
                 </Link>
               </div>
             </div>
@@ -283,7 +285,7 @@ const DrivethruLandingPage = () => {
         id="features"
         className="w-full max-w-5xl  mx-auto p-6 sm:p-8 bg-gray-100 rounded-lg shadow-lg"
       >
-        <h2 className="text-3xl font-bold text-center mb-8">Key Features</h2>
+        <h2 className="text-3xl font-bold text-center mb-8">{t("key_features")}</h2>
         <div className="flex flex-col-reverse md:flex-row items-center gap-8 lg:gap-12">
           {/* Left Side - Image */}
           <div className="w-full md:w-1/2 flex justify-center">
@@ -328,7 +330,7 @@ const DrivethruLandingPage = () => {
         id="howItWorks"
         className="w-full max-w-5xl mx-auto p-6 sm:p-8 bg-gray-100 rounded-lg shadow-lg"
       >
-        <h2 className="text-3xl font-bold text-center mb-8">How It Works</h2>
+        <h2 className="text-3xl font-bold text-center mb-8">{t("how_it_works")}</h2>
         <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-12">
           {/* Left Side - Feature List */}
           <div className="w-full md:w-1/2">

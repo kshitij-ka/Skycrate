@@ -1,0 +1,34 @@
+{
+  "dashboard": "Tableau de bord",
+  "failed_to_load_files": "Échec du chargement des fichiers. Veuillez réessayer plus tard.",
+
+  "skycrate": "Skycrate",
+  "hero_subtitle": "Stockez, accédez et partagez vos fichiers — à tout moment, partout !",
+  "hero_desc": "Une solution de stockage cloud simple, sécurisée et rapide pour tous vos fichiers. Téléchargez, organisez et accédez facilement.",
+  "get_started": "Commencer",
+  "login": "Connexion",
+  "key_features": "Fonctionnalités clés",
+  "feature_easy_upload_title": "Téléversement et accès faciles",
+  "feature_easy_upload_desc": "Glissez-déposez, accès instantané.",
+  "feature_secure_title": "Sécurisé et privé",
+  "feature_secure_desc": "Chiffrement de bout en bout.",
+  "feature_sharing_title": "Partage sans effort",
+  "feature_sharing_desc": "Partagez des fichiers en un clic.",
+  "feature_access_anywhere_title": "Accès partout",
+  "feature_access_anywhere_desc": "Fonctionne sur tous les appareils.",
+  "how_it_works": "Comment ça marche",
+  "how_create_account_title": "Créer un compte",
+  "how_create_account_desc": "Inscrivez-vous en quelques secondes.",
+  "how_upload_files_title": "Téléverser des fichiers",
+  "how_upload_files_desc": "Glissez-déposez ou sélectionnez depuis votre appareil.",
+  "how_manage_files_title": "Gérer les fichiers",
+  "how_manage_files_desc": "Renommez, déplacez ou supprimez facilement.",
+  "how_access_anytime_title": "Accès à tout moment",
+  "how_access_anytime_desc": "Ouvrez des fichiers depuis n'importe quel appareil.",
+
+  "not_found_title": "Page non trouvée",
+  "not_found_description": "Désolé, nous n'avons pas pu trouver la page que vous cherchiez. Elle a peut-être été déplacée ou supprimée.",
+  "go_home": "Accueil"
+
+
+}

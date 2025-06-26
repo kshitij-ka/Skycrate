@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // for multilinguality
 import Sidebar from "../../components/Sidebar";
 import FileList from "../../components/FileList";
 import FileUploadModal from "../../components/FileUploadModal";
 import { FiPlus } from "react-icons/fi";
 
 const Dashboard = () => {
+  const { t } = useTranslation(); // for multilinguality
   const [files, setFiles] = useState([]);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
+
   const isUserLoggedIn = () => {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
@@ -36,7 +39,7 @@ const Dashboard = () => {
       setFiles(data);
     } catch (error) {
       console.error("Failed to fetch files:", error);
-      setError("Failed to load files. Please try again later.");
+      setError(t("failed_to_load_files"));
     }
   };
 
@@ -46,6 +49,7 @@ const Dashboard = () => {
     } else {
       fetchFiles();
     }
+    // eslint-disable-next-line
   }, [navigate]);
 
   return (
@@ -54,7 +58,7 @@ const Dashboard = () => {
       <div className="p-4 sm:ml-64">
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
           <div className="w-full flex justify-between items-center">
-            <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+            <h1 className="text-2xl font-bold mb-4">{t("dashboard")}</h1>
             <button
               onClick={() => setIsUploadModalOpen(true)}
               className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center"

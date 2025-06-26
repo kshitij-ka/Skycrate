@@ -1,0 +1,35 @@
+{
+  "dashboard": "Dashboard",
+  "failed_to_load_files": "Failed to load files. Please try again later.",
+
+  "skycrate": "Skycrate",
+  "hero_subtitle": "Store, Access & Share Your Files — Anytime, Anywhere!",
+  "hero_desc": "A simple, secure, and fast cloud storage solution for all your files. Upload, organize, and access with ease.",
+  "get_started": "Get Started",
+  "login": "Login",
+  "key_features": "Key Features",
+  "feature_easy_upload_title": "Easy Upload & Access",
+  "feature_easy_upload_desc": "Drag & drop, instant access.",
+  "feature_secure_title": "Secure & Private",
+  "feature_secure_desc": "End-to-end encryption.",
+  "feature_sharing_title": "Seamless Sharing",
+  "feature_sharing_desc": "Share files with one click.",
+  "feature_access_anywhere_title": "Access Anywhere",
+  "feature_access_anywhere_desc": "Works on all devices.",
+  "how_it_works": "How It Works",
+  "how_create_account_title": "Create an account",
+  "how_create_account_desc": "Sign up in seconds.",
+  "how_upload_files_title": "Upload files",
+  "how_upload_files_desc": "Drag & drop or select from your device.",
+  "how_manage_files_title": "Manage files",
+  "how_manage_files_desc": "Rename, move, or delete easily.",
+  "how_access_anytime_title": "Access anytime",
+  "how_access_anytime_desc": "Open files from any device.",
+
+  "not_found_title": "Page Not Found",
+  "not_found_description": "Sorry, we couldn't find the page you were looking for. It may have been moved or deleted.",
+  "go_home": "Go Home"
+
+
+}
+
