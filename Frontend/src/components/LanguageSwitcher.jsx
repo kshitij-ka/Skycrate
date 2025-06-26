@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 const languages = [
   { code: 'en', label: 'English' },
-  { code: 'fr', label: 'Français' },
+  { code: 'hi', label: 'Hindi (हिंदी)' },
+  { code: 'fr', label: 'French (Français)' },
   // Add more languages as needed
 ];
 
