@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next"; // for multilinguality
 
 const Sidebar = () => {
+  const { t } = useTranslation(); // for multilinguality
   const navigate = useNavigate(); // Hook for programmatic navigation
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef();
 
   // Show loading toast and perform logout
   const handleLogout = () => {
-    const loadingToast = toast.loading("Logging out...");
+    const loadingToast = toast.loading(t("sidebar_logging_out"));
 
     // Simulate a delay (for example, network request)
     setTimeout(() => {
@@ -23,7 +25,7 @@ const Sidebar = () => {
 
       // Show success toast after logout
       toast.update(loadingToast, {
-        render: "Logged out successfully!",
+        render: t("sidebar_logged_out"),
         type: "success",
         isLoading: false,
         autoClose: 2000,
@@ -55,7 +57,7 @@ const Sidebar = () => {
               type="button"
               className="inline-flex items-center p-2 text-lg text-white rounded-lg sm:hidden hover:bg-[#37A0EA] focus:outline-none"
             >
-              <span className="sr-only">Open sidebar</span>
+              <span className="sr-only">{t("sidebar_open_sidebar")}</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   clipRule="evenodd"
@@ -67,7 +69,7 @@ const Sidebar = () => {
             <Link to="/" className="flex ms-2 md:me-24">
               <img src="./image.png" className="h-8 me-3" alt="Skycrate Logo" />
               <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
-                Skycrate
+                {t("sidebar_brand")}
               </span>
             </Link>
           </div>
@@ -84,11 +86,11 @@ const Sidebar = () => {
                 onClick={() => setUserMenuOpen((o) => !o)}
                 className="flex text-lg bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
               >
-                <span className="sr-only">Open user menu</span>
+                <span className="sr-only">{t("sidebar_open_user_menu")}</span>
                 <img
                   className="w-8 h-8 rounded-full"
                   src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                  alt="User Photo"
+                  alt={t("sidebar_user_photo")}
                 />
               </button>
 
@@ -109,7 +111,7 @@ const Sidebar = () => {
                         className="w-full text-left px-4 py-2 text-lg text-white hover:bg-[#37A0EA]"
                         role="menuitem"
                       >
-                        Log out
+                        {t("sidebar_logout")}
                       </button>
                     </li>
                   </ul>
@@ -139,7 +141,7 @@ const Sidebar = () => {
                 >
                   <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.73L5.82 21z" />
                 </svg>
-                <span className="ms-3">Starred</span>
+                <span className="ms-3">{t("sidebar_starred")}</span>
               </Link>
             </li>
             {/* ...additional sidebar items... */}

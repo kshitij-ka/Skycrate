@@ -2,10 +2,12 @@ import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useTranslation } from "react-i18next"; // for multilinguality
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const SignUp = () => {
+  const { t } = useTranslation(); // for multilinguality
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -30,12 +32,12 @@ const SignUp = () => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match.");
+      toast.error(t("passwords_do_not_match"));
       return;
     }
 
     setLoading(true);
-    const toastId = toast.loading("Registering...");
+    const toastId = toast.loading(t("registering"));
 
     try {
       // 1️⃣ Sign up the user
@@ -52,7 +54,7 @@ const SignUp = () => {
       const signupData = await signupRes.json();
 
       if (!signupRes.ok) {
-        toast.error(signupData.message || "Signup failed.", { id: toastId });
+        toast.error(signupData.message || t("signup_failed"), { id: toastId });
         return;
       }
 
@@ -66,11 +68,9 @@ const SignUp = () => {
 
       if (!folderRes.ok) {
         // you might choose to roll back user creation or just notify
-        toast.error("Failed to create user folder.", { id: toastId });
+        toast.error(t("failed_create_folder"), { id: toastId });
       } else {
-        toast.success("Successfully registered and folder created!", {
-          id: toastId,
-        });
+        toast.success(t("signup_success"), { id: toastId });
       }
 
       // 3️⃣ Redirect to login after a short delay
@@ -79,7 +79,7 @@ const SignUp = () => {
       }, 1500);
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred. Please try again.", { id: toastId });
+      toast.error(t("an_error_occurred"), { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -89,12 +89,12 @@ const SignUp = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <Toaster position="top-right" />
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Sign Up</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">{t("sign_up")}</h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
             name="firstname"
-            placeholder="First Name"
+            placeholder={t("first_name")}
             value={formData.firstname}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -103,7 +103,7 @@ const SignUp = () => {
           <input
             type="text"
             name="lastname"
-            placeholder="Last Name"
+            placeholder={t("last_name")}
             value={formData.lastname}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -112,7 +112,7 @@ const SignUp = () => {
           <input
             type="email"
             name="email"
-            placeholder="Enter your email"
+            placeholder={t("email_placeholder")}
             value={formData.email}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -124,7 +124,7 @@ const SignUp = () => {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="Enter your password"
+              placeholder={t("password_placeholder")}
               value={formData.password}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
@@ -144,7 +144,7 @@ const SignUp = () => {
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
-              placeholder="Confirm your password"
+              placeholder={t("confirm_password_placeholder")}
               value={formData.confirmPassword}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
@@ -169,18 +169,18 @@ const SignUp = () => {
                 : "bg-gradient-to-r from-[#10B981] to-[#07533A] hover:from-[#0E458C] hover:to-[#1877F2]"
             } text-white font-semibold rounded-lg shadow-md transition duration-300`}
           >
-            {loading ? "Signing Up..." : "Sign Up"}
+            {loading ? t("signing_up") : t("sign_up")}
           </button>
         </form>
 
         {/* Redirect to Login */}
         <p className="text-center mt-4 text-gray-700">
-          Already have an account?{" "}
+          {t("already_have_account")}{" "}
           <Link
             to="/login"
             className="text-blue-500 hover:underline font-medium"
           >
-            Login
+            {t("login")}
           </Link>
         </p>
       </div>
