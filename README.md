@@ -1,5 +1,8 @@
 # Skycrate
 
+> [!NOTE]
+> This project is now multilingual. To contribute new languages, please read the [translation guide](./TRANSLATION.md).
+
 ---
 
 ## Versions
