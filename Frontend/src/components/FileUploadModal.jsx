@@ -43,10 +43,14 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
     try {
       setUploading(true);
       setUploadMessage("⏳ Uploading file...");
-      const response = await fetch(`${API_URL}/api/hdfs/uploadFile`, {
+      const response = await fetch(`${API_URL}/api/files/upload`, {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
         body: formData,
       });
+
       if (!response.ok) {
         const errorText = await response.text();
         setUploadMessage(`❌ Upload failed: ${errorText}`);
