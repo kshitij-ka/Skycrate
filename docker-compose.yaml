@@ -120,7 +120,7 @@ services:
       - backend
 
   backend:
-    image: kshitijka/skycrate-backend:1.0
+    image: kshitijka/skycrate-backend:1.5
     container_name: skycrate-backend
     restart: on-failure:5
     user: "skycrateBack:skycrateBack"
@@ -129,7 +129,7 @@ services:
     networks:
       - skycrate-internal
     ports:
-      - "8081:8080" # If you change, update in Frontend/.env file too and rebuild the image
+      - "8080:8080" # If you change, update in Frontend/.env file too and rebuild the image
     environment:
       - JWT_SECRET=${JWT_SECRET} # Eg. dO9Yl9NYJOODug8y9ciMVnVMoH44Q6mXilIlZ2LXXYY=
       - DB_NAME=${DB_NAME}
