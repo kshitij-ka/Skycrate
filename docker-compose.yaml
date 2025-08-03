@@ -8,7 +8,7 @@ services:
       #- "9000:9000" # Hadoop; No need to expose since backend will access internally
     user: "hdoop:hdoop"  
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     volumes:
@@ -24,7 +24,7 @@ services:
     restart: on-failure:5
     user: "hdoop:hdoop"  
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     volumes:
@@ -42,7 +42,7 @@ services:
     restart: on-failure:10
     user: "hdoop:hdoop"  
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     environment:
@@ -58,7 +58,7 @@ services:
     restart: on-failure:5
     user: "hdoop:hdoop"  
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     environment:
@@ -74,7 +74,7 @@ services:
     restart: on-failure:5
     user: "hdoop:hdoop"  
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     environment:
@@ -92,13 +92,13 @@ services:
     restart: on-failure:5
     user: "1000:1000"
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     environment:
-      - MYSQL_DATABASE=skycrate
-      - MYSQL_USER=skycrateDB
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
     volumes:
       - skycrate-db:/var/lib/mysql
@@ -111,13 +111,11 @@ services:
     restart: on-failure:5
     user: "skycrateFront:skycrateFront"
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     ports:
       - "80:8080"
-    volumes:
-      - skycrate-frontend:/app
     depends_on:
       - backend
 
@@ -127,23 +125,28 @@ services:
     restart: on-failure:5
     user: "skycrateBack:skycrateBack"
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges=true
     networks:
       - skycrate-internal
     ports:
-      - "8081:8081" # If you change, update in Frontend/.env file too and rebuild the image
+      - "8081:8080" # If you change, update in Frontend/.env file too and rebuild the image
     environment:
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    volumes:
-      - skycrate-backend:/app
+      - JWT_SECRET=${JWT_SECRET} # Eg. dO9Yl9NYJOODug8y9ciMVnVMoH44Q6mXilIlZ2LXXYY=
+      - DB_NAME=${DB_NAME}
+      - DB_URI=db:3306
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - HDFS_URI=hdfs://namenode:9000
+      - HDFS_USER=hadoopuser
+      - SSL_PASSWORD=tempP@ass69 # Do not change for now. Future updates will allow you to change it.
+    env_file:
+      - .env
 
 volumes:
   skycrate-hadoop_namenode:
   skycrate-hadoop_datanode:
   skycrate-hadoop_historyserver:
   skycrate-db:
-  skycrate-frontend:
-  skycrate-backend:
 
 networks:
   skycrate-internal:
