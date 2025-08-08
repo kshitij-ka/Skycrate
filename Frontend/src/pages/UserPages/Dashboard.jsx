@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import Sidebar from "../../components/Sidebar";
 import FileList from "../../components/FileList";
@@ -40,12 +41,17 @@ const ApiService = {
 const Dashboard = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [files, setFiles] = useState([]);
+  // Get current path from Redux
+  const currentPath = useSelector((state) => state.path?.currentPath);
+  const username = localStorage.getItem("username") || "";
+  const userRoot = `/${username}`;
+
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState("");
+  const [error] = useState("");
 
   // Auth check and redirect
   const checkAuthAndRedirect = useCallback(() => {
@@ -57,58 +63,6 @@ const Dashboard = () => {
     return true;
   }, [navigate]);
 
-  // Fetch files with proper error handling
-  const fetchFiles = useCallback(
-    async (showRefreshIndicator = false) => {
-      if (!checkAuthAndRedirect()) return;
-
-      try {
-        if (showRefreshIndicator) setRefreshing(true);
-        else setLoading(true);
-
-        const response = await ApiService.request(
-          "/api/hdfs/listFiles?hdfsPath=/"
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        setFiles(Array.isArray(data) ? data : []);
-        setError("");
-
-        if (showRefreshIndicator) {
-          toast.success(t("files_refreshed"));
-        }
-      } catch (error) {
-        console.error("Failed to fetch files:", error);
-
-        if (
-          error.message === "No authentication token" ||
-          error.message === "Authentication failed"
-        ) {
-          TokenManager.clearTokens();
-          navigate("/login", { replace: true });
-          return;
-        }
-
-        const errorMessage = error.message.includes("HTTP 403")
-          ? t("access_denied")
-          : error.message.includes("HTTP 404")
-          ? t("endpoint_not_found")
-          : t("failed_to_load_files");
-
-        setError(errorMessage);
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    },
-    [checkAuthAndRedirect, navigate, t]
-  );
-
   // Handle logout - simply clear tokens and redirect
   const handleLogout = useCallback(() => {
     TokenManager.clearTokens();
@@ -116,30 +70,47 @@ const Dashboard = () => {
     navigate("/login", { replace: true });
   }, [navigate, t]);
 
-  // Handle upload success
+  // Handle upload success - this will trigger FileList to refresh
   const handleUploadSuccess = useCallback(() => {
     setIsUploadModalOpen(false);
-    fetchFiles(true); // Refresh with indicator
-  }, [fetchFiles]);
+    toast.success("File uploaded successfully!");
+    // The FileList component will handle its own refresh via Redux state changes
+  }, []);
 
-  // Initial setup
+  // Handle file list refresh from FileList component
+  const handleFileListRefresh = useCallback(() => {
+    setRefreshing(true);
+    // FileList handles its own data fetching, we just show the refresh indicator
+    setTimeout(() => {
+      setRefreshing(false);
+      toast.success(t("files_refreshed"));
+    }, 500);
+  }, [t]);
+
+  // Manual refresh trigger
+  const handleManualRefresh = useCallback(() => {
+    handleFileListRefresh();
+    // Force FileList to refresh by triggering a re-render
+    window.dispatchEvent(new CustomEvent("refreshFileList"));
+  }, [handleFileListRefresh]);
+
+  // Initial setup and Redux path initialization
   useEffect(() => {
     if (checkAuthAndRedirect()) {
-      fetchFiles();
-    }
-  }, [checkAuthAndRedirect, fetchFiles]);
-
-  // Auto-refresh files periodically (optional)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const token = TokenManager.getAccessToken();
-      if (token && !loading && !refreshing) {
-        fetchFiles();
+      // Initialize Redux path if not set or not user-specific
+      if (
+        !currentPath ||
+        currentPath === "/" ||
+        !currentPath.includes(username)
+      ) {
+        console.log("Initializing Redux path to:", userRoot);
+        dispatch({ type: "path/resetToUserRoot" });
+      } else {
+        console.log("Redux path already set to:", currentPath);
       }
-    }, 5 * 60 * 1000); // Refresh every 5 minutes
-
-    return () => clearInterval(interval);
-  }, [fetchFiles, loading, refreshing]);
+    }
+    setLoading(false);
+  }, [checkAuthAndRedirect, currentPath, userRoot, username, dispatch]);
 
   if (loading) {
     return (
@@ -163,16 +134,19 @@ const Dashboard = () => {
               <h1 className="text-3xl font-bold text-gray-800 mb-2">
                 {t("dashboard")}
               </h1>
-              {/* <p className="text-gray-600">
-                {t("manage_your_files")} • {files.length} {t("files_total")}
-              </p> */}
+              <p className="text-gray-600">
+                Current Directory:{" "}
+                <span className="font-mono text-blue-600">
+                  {currentPath || userRoot}
+                </span>
+              </p>
             </div>
 
             <div className="flex gap-2">
               {/* Refresh Button */}
               <button
-                onClick={() => fetchFiles(true)}
-                disabled={refreshing || loading}
+                onClick={handleManualRefresh}
+                disabled={refreshing}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   refreshing
                     ? "bg-gray-100 text-gray-500 cursor-not-allowed"
@@ -194,7 +168,11 @@ const Dashboard = () => {
                 className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg px-4 py-2 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <FiPlus className="text-lg" />
-                <span className="hidden sm:inline">{t("upload_file")}</span>
+                <span className="hidden sm:inline">
+                  {currentPath && currentPath !== userRoot
+                    ? `Upload to ${currentPath.split("/").pop()}`
+                    : t("upload_file")}
+                </span>
               </button>
             </div>
           </div>
@@ -208,31 +186,16 @@ const Dashboard = () => {
               </h3>
               <p className="text-red-600 mb-4">{error}</p>
               <button
-                onClick={() => fetchFiles()}
+                onClick={handleManualRefresh}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
               >
                 {t("try_again")}
               </button>
             </div>
-          ) : files.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">📁</div>
-              <h3 className="text-xl font-semibold text-gray-600 mb-2">
-                {t("no_files_found")}
-              </h3>
-              <p className="text-gray-500 mb-6">{t("upload_first_file")}</p>
-              <button
-                onClick={() => setIsUploadModalOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-              >
-                {t("upload_your_first_file")}
-              </button>
-            </div>
           ) : (
             <FileList
-              files={files}
-              onFileDeleted={() => fetchFiles(true)}
-              onFileUpdated={() => fetchFiles(true)}
+              initialPath={userRoot}
+              onRefresh={handleFileListRefresh}
             />
           )}
         </div>
