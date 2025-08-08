@@ -162,6 +162,9 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
             <h3 className="text-lg font-medium text-gray-700 mb-3">
               Create Folder
             </h3>
+
+
+            
             <input
               type="text"
               placeholder="Folder name"
