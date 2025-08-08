@@ -25,14 +25,28 @@ const FileList = ({ initialPath }) => {
   const username = localStorage.getItem("username") || "";
   const userRoot = `/${username}`;
 
-  const [currentPath, setCurrentPathState] = useState(
-    () => initialPath || userRoot
-  );
+  // Use Redux state as the single source of truth
+  const reduxCurrentPath = useSelector((state) => state.path?.currentPath);
+  const currentPath = reduxCurrentPath || initialPath || userRoot;
+
   const [files, setFiles] = useState([]);
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [downloadFilename, setDownloadFilename] = useState("");
+  const [error, setError] = useState(null);
   const dispatch = useDispatch();
   const isUploading = useSelector((state) => state.upload.isUploading);
+
+  // Initialize Redux state if it's empty or not user-specific
+  useEffect(() => {
+    if (
+      !reduxCurrentPath ||
+      reduxCurrentPath === "/" ||
+      !reduxCurrentPath.includes(username)
+    ) {
+      console.log("FileList: Initializing Redux path to user root:", userRoot);
+      dispatch({ type: "path/resetToUserRoot" });
+    }
+  }, [dispatch, userRoot, username, reduxCurrentPath]);
 
   const getType = (entry) =>
     entry.trim().startsWith("📁") ? "Folder" : "File";
@@ -83,7 +97,18 @@ const FileList = ({ initialPath }) => {
 
   const fetchFiles = async () => {
     try {
-      const token = localStorage.getItem("token");
+      setError(null);
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        console.error("No authentication token found");
+        setError("Authentication token missing. Please log in again.");
+        return;
+      }
+
+      console.log("Fetching files for path:", currentPath);
+      console.log("Using token:", token.substring(0, 20) + "..."); // Log first 20 chars for debugging
+
       const res = await fetch(
         `${API_URL}/api/hdfs/listFiles?hdfsPath=${encodeURIComponent(
           currentPath
@@ -96,13 +121,46 @@ const FileList = ({ initialPath }) => {
         }
       );
 
-      const data = await res.json();
-      const filtered = data.filter(
-        (entry) => entry.match(/^ */)[0].length === 0
-      );
-      setFiles(filtered);
+      console.log("Response status:", res.status);
+      console.log("Response headers:", res.headers);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error("Failed to fetch files:", res.status, errorText);
+
+        if (res.status === 401) {
+          setError("Authentication failed. Please log in again.");
+          // Optionally redirect to login or refresh token
+        } else {
+          setError(`Failed to fetch files: ${errorText}`);
+        }
+        setFiles([]);
+        return;
+      }
+
+      // Check if response is JSON
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        const filtered = data.filter(
+          (entry) => entry.match(/^ */)[0].length === 0
+        );
+        setFiles(filtered);
+        console.log("Files fetched successfully:", filtered);
+      } else {
+        // Handle non-JSON response
+        const textData = await res.text();
+        console.error("Unexpected response format:", textData);
+        setError("Unexpected response format from server");
+        setFiles([]);
+      }
     } catch (err) {
       console.error("Failed to fetch files:", err);
+      if (err.name === "SyntaxError" && err.message.includes("JSON")) {
+        setError("Server returned invalid response. Please try again.");
+      } else {
+        setError("Network error. Please check your connection and try again.");
+      }
       setFiles([]);
     }
   };
@@ -119,28 +177,82 @@ const FileList = ({ initialPath }) => {
           : `${API_URL}/api/hdfs/deleteFolder?hdfsPath=${encodeURIComponent(
               hdfsPath
             )}`;
-      const resp = await fetch(endpoint, { method: "DELETE" });
-      if (!resp.ok) console.error("Deletion failed:", await resp.text());
-      fetchFiles();
+
+      const token = localStorage.getItem("accessToken");
+      const resp = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!resp.ok) {
+        const errorText = await resp.text();
+        console.error("Deletion failed:", errorText);
+        setError(`Failed to delete ${type.toLowerCase()}: ${errorText}`);
+      } else {
+        console.log(`${type} deleted successfully:`, name);
+        fetchFiles(); // Refresh the file list
+      }
     } catch (err) {
       console.error("Failed to delete:", err);
+      setError(`Error deleting ${type.toLowerCase()}: ${err.message}`);
     }
   };
 
   useEffect(() => {
-    dispatch(setCurrentPath(currentPath));
-    fetchFiles();
-  }, [currentPath, dispatch, isUploading]);
+    if (currentPath) {
+      fetchFiles();
+    }
+  }, [currentPath, isUploading]);
+
+  // Listen for manual refresh events from Dashboard
+  useEffect(() => {
+    const handleRefreshEvent = () => {
+      fetchFiles();
+    };
+
+    window.addEventListener("refreshFileList", handleRefreshEvent);
+    return () => {
+      window.removeEventListener("refreshFileList", handleRefreshEvent);
+    };
+  }, []);
+
+  // Reset isUploading after files are fetched
+  useEffect(() => {
+    if (isUploading) {
+      // Reset the uploading state after a successful fetch
+      const timer = setTimeout(() => {
+        dispatch({ type: "upload/setIsUploading", payload: false });
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isUploading, dispatch]);
 
   const handleOpenFolder = (folderName) => {
-    setCurrentPathState((prev) => `${prev}/${folderName}`);
+    // Ensure we don't have double slashes and construct the path correctly
+    const cleanCurrentPath = currentPath.replace(/\/+$/, ""); // Remove trailing slashes
+    const newPath = `${cleanCurrentPath}/${folderName}`;
+
+    console.log("Opening folder - Current path:", currentPath);
+    console.log("Opening folder - Folder name:", folderName);
+    console.log("Opening folder - New path:", newPath);
+
+    // Update Redux state directly instead of local state
+    dispatch(setCurrentPath(newPath));
   };
 
   const goBack = () => {
     if (currentPath === userRoot) return;
     const parts = currentPath.split("/").filter(Boolean);
     parts.pop();
-    setCurrentPathState(parts.length === 0 ? userRoot : `/${parts.join("/")}`);
+    const newPath = parts.length === 0 ? userRoot : `/${parts.join("/")}`;
+
+    console.log("Going back - Current path:", currentPath);
+    console.log("Going back - New path:", newPath);
+
+    // Update Redux state directly
+    dispatch(setCurrentPath(newPath));
   };
 
   // open modal instead of direct download
@@ -166,6 +278,12 @@ const FileList = ({ initialPath }) => {
           )}
         </div>
 
+        {error && (
+          <div className="px-6 py-4 bg-red-50 border-b border-red-200">
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
+        )}
+
         <table className="w-full text-sm text-left text-black">
           <thead className="text-xs uppercase bg-blue-50 text-blue-800 border-b border-blue-200">
             <tr>
@@ -177,14 +295,13 @@ const FileList = ({ initialPath }) => {
             {files.length === 0 ? (
               <tr>
                 <td colSpan="2" className="px-6 py-4 text-gray-500 text-center">
-                  No files found.
+                  {error ? "Failed to load files." : "No files found."}
                 </td>
               </tr>
             ) : (
               files.map((entry, idx) => {
                 const name = getName(entry);
                 const type = getType(entry);
-                // const hdfsPath = `${currentPath}/${name}`;
                 return (
                   <tr
                     key={idx}
