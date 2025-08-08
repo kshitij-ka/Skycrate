@@ -14,7 +14,7 @@ function App() {
       <div
         style={{
           position: "absolute",
-          top: "-0.5 rem",
+          top: "0px",
           right: "5rem",
           zIndex: 1000,
           background: "rgba(255, 255, 255, 0.95)",
