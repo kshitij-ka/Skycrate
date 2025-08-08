@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { useTranslation } from "react-i18next"; // for multilinguality
+import { useTranslation } from "react-i18next";
+// import LanguageSwitcher from "./LanguageSwitcher";
 
 const Sidebar = () => {
-  const { t } = useTranslation(); // for multilinguality
-  const navigate = useNavigate(); // Hook for programmatic navigation
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const menuRef = useRef();
 
@@ -16,20 +17,22 @@ const Sidebar = () => {
     // Simulate a delay (for example, network request)
     setTimeout(() => {
       // Remove the token from localStorage
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
       localStorage.removeItem("username");
-      localStorage.removeItem("expiresIn");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userEmail");
+
+      // Dismiss the loading toast
+      toast.dismiss(loadingToast);
+
+      // Show success toast after logout
+      toast.success(t("sidebar_logged_out"), {
+        duration: 2000,
+      });
 
       // Redirect user to the homepage
       navigate("/");
-
-      // Show success toast after logout
-      toast.update(loadingToast, {
-        render: t("sidebar_logged_out"),
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
     }, 1500);
   };
 
@@ -55,7 +58,7 @@ const Sidebar = () => {
               data-drawer-toggle="logo-sidebar"
               aria-controls="logo-sidebar"
               type="button"
-              className="inline-flex items-center p-2 text-lg text-white rounded-lg sm:hidden hover:bg-[#37A0EA] focus:outline-none"
+              className="inline-flex items-center p-2 text-lg text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none"
             >
               <span className="sr-only">{t("sidebar_open_sidebar")}</span>
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -68,19 +71,23 @@ const Sidebar = () => {
             </button>
             <Link to="/" className="flex ms-2 md:me-24">
               <img src="./image.png" className="h-8 me-3" alt="Skycrate Logo" />
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">
+              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-gray-800">
                 {t("sidebar_brand")}
               </span>
             </Link>
           </div>
 
-          {/* Right Section - Search & User Menu */}
-          <div className="flex items-center">
-            {/* Search Bar */}
-            <div className="flex items-center justify-end mr-40"></div>
+          {/* Center/Right Section - Language Switcher, Search & User Menu */}
+          <div className="flex items-center space-x-6 mr-4">
+            {/* Language Switcher */}
+
+            {/* Search Bar (if needed) */}
+            <div className="flex items-center justify-end">
+              {/* Add search functionality here if needed */}
+            </div>
 
             {/* User Profile & Dropdown */}
-            <div className="relative ms-3">
+            <div className="relative z-50">
               <button
                 type="button"
                 onClick={() => setUserMenuOpen((o) => !o)}
@@ -97,18 +104,44 @@ const Sidebar = () => {
               {userMenuOpen && (
                 <div
                   ref={menuRef}
-                  className="z-50 absolute right-0 mt-2 w-48 bg-[#1877F2] divide-y divide-gray-100 rounded-sm shadow-sm"
+                  className="z-50 absolute right-0 mt-2 w-48 bg-[#1877F2] divide-y divide-gray-100 rounded-lg shadow-lg"
                 >
                   <div className="px-4 py-3" role="none">
-                    <p className="text-lg text-white" role="none">
+                    <p className="text-sm text-white font-medium" role="none">
                       {localStorage.getItem("username")}
+                    </p>
+                    <p className="text-xs text-gray-200 truncate" role="none">
+                      {localStorage.getItem("userEmail") || "user@example.com"}
                     </p>
                   </div>
                   <ul className="py-1" role="none">
                     <li>
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] transition-colors"
+                        role="menuitem"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        {t("sidebar_profile")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/settings"
+                        className="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] transition-colors"
+                        role="menuitem"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        {t("sidebar_settings")}
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="border-gray-300 my-1" />
+                    </li>
+                    <li>
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-lg text-white hover:bg-[#37A0EA]"
+                        className="w-full text-left px-4 py-2 text-sm text-white hover:bg-[#37A0EA] transition-colors"
                         role="menuitem"
                       >
                         {t("sidebar_logout")}
@@ -131,8 +164,38 @@ const Sidebar = () => {
           <ul className="space-y-2 font-medium">
             <li>
               <Link
-                to="#"
-                className="flex items-center p-2 mt-5 pt-4 pb-4 text-white rounded-lg hover:bg-[#37A0EA] group"
+                to="/dashboard"
+                className="flex items-center p-2 mt-5 pt-4 pb-4 text-white rounded-lg hover:bg-[#37A0EA] group transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                </svg>
+                <span className="ms-3">{t("sidebar_dashboard")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/files"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg hover:bg-[#37A0EA] group transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8l6-6V8l-6-6H6zm7 7V3.5L18.5 9H13z" />
+                </svg>
+                <span className="ms-3">{t("sidebar_files")}</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/starred"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg hover:bg-[#37A0EA] group transition-colors"
               >
                 <svg
                   className="w-5 h-5"
@@ -144,7 +207,21 @@ const Sidebar = () => {
                 <span className="ms-3">{t("sidebar_starred")}</span>
               </Link>
             </li>
-            {/* ...additional sidebar items... */}
+            <li>
+              <Link
+                to="/shared"
+                className="flex items-center p-2 pt-4 pb-4 text-white rounded-lg hover:bg-[#37A0EA] group transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" />
+                </svg>
+                <span className="ms-3">{t("sidebar_shared")}</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </aside>
