@@ -83,11 +83,19 @@ const FileList = ({ initialPath }) => {
 
   const fetchFiles = async () => {
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(
         `${API_URL}/api/hdfs/listFiles?hdfsPath=${encodeURIComponent(
           currentPath
-        )}`
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
+
       const data = await res.json();
       const filtered = data.filter(
         (entry) => entry.match(/^ */)[0].length === 0
