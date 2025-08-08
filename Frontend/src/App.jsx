@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LanguageSwitcher from './components/LanguageSwitcher'; // Language switcher dropdown menu
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import Login from "./pages/Authentication/Login";
 import SignUp from "./pages/Authentication/SignUp";
 import DrivethruLandingPage from "./pages/UserPages/DrivethruLandingPage";
@@ -10,7 +10,21 @@ import NotFoundPage from "./pages/UserPages/NotFoundPage";
 function App() {
   return (
     <Router>
-      <LanguageSwitcher />
+      {/* Language Switcher positioned at top-right with proper positioning */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-0.5 rem",
+          right: "5rem",
+          zIndex: 1000,
+          background: "rgba(255, 255, 255, 0.95)",
+          borderRadius: "4px",
+          padding: "0.25em 0.5em",
+          boxShadow: "rgba(0, 0, 0, 0.05) 0px 2px 8px",
+        }}
+      >
+        <LanguageSwitcher />
+      </div>
       <Routes>
         <Route path="/" element={<DrivethruLandingPage />} />
         <Route path="/login" element={<Login />} />
