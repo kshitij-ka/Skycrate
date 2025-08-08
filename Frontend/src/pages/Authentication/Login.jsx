@@ -225,7 +225,7 @@ const Login = () => {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
             {t("login_title")}
           </h1>
-          <p className="text-gray-600 text-sm">{t("welcome_back_message")}</p>
+          <p className="text-gray-600 text-sm">{t("Welcome back")}</p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate className="space-y-6">

@@ -81,10 +81,18 @@ export default function SignUp() {
       }
 
       // 2️⃣ Create HDFS folder (encode the slash!)
-      const hdfsPath = encodeURIComponent(`/${form.username}`);
+      const hdfsPath = encodeURIComponent(
+        `/${form.firstname} ${form.lastname}`
+      );
+
       const folderRes = await fetch(
         `${API_URL}/api/hdfs/createFolder?hdfsPath=${hdfsPath}`,
-        { method: "POST" }
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
 
       if (!folderRes.ok) {
