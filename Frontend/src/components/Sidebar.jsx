@@ -116,26 +116,6 @@ const Sidebar = () => {
                   </div>
                   <ul className="py-1" role="none">
                     <li>
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] transition-colors"
-                        role="menuitem"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        {t("sidebar_profile")}
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/settings"
-                        className="block px-4 py-2 text-sm text-white hover:bg-[#37A0EA] transition-colors"
-                        role="menuitem"
-                        onClick={() => setUserMenuOpen(false)}
-                      >
-                        {t("sidebar_settings")}
-                      </Link>
-                    </li>
-                    <li>
                       <hr className="border-gray-300 my-1" />
                     </li>
                     <li>
