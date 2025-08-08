@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { setIsUploading } from "../store/UploadStatusSlice";
 
 const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
-  const currentPath = useSelector((state) => state.path.currentPath);
+  const currentPath = useSelector((state) => state.path?.currentPath);
   const dispatch = useDispatch();
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -33,38 +33,81 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
       setUploadMessage("⚠️ Please select a file before uploading.");
       return;
     }
+
+    // Ensure we have a valid current path - fallback to user root if not available
+    const uploadPath = currentPath || `/${username}`;
+
+    // Add comprehensive debugging
+    console.log("=== UPLOAD DEBUG INFO ===");
+    console.log("Current path from Redux:", currentPath);
+    console.log("Username:", username);
+    console.log("Final upload path:", uploadPath);
+    console.log("File name:", file.name);
+    console.log("File size:", file.size);
+    console.log("API URL:", `${API_URL}/api/files/upload`);
+    console.log("========================");
+
     const formData = new FormData();
 
+    // Only send the file, just like the curl example
     formData.append("file", file);
-    formData.append("hdfsPath", currentPath);
-    formData.append("uploadedFileName", file.name);
-    formData.append("username", username);
+
+    // Debug FormData contents
+    console.log("FormData contents (simplified):");
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ": " + pair[1]);
+    }
+
+    console.log(
+      "Full upload URL:",
+      `${API_URL}/api/files/upload?hdfsPath=${encodeURIComponent(uploadPath)}`
+    );
 
     try {
       setUploading(true);
       setUploadMessage("⏳ Uploading file...");
-      const response = await fetch(`${API_URL}/api/files/upload`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
+
+      const response = await fetch(
+        `${API_URL}/api/files/upload?hdfsPath=${encodeURIComponent(
+          uploadPath
+        )}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: formData,
+        }
+      );
+
+      console.log("Upload response status:", response.status);
+      console.log(
+        "Upload response headers:",
+        Array.from(response.headers.entries())
+      );
 
       if (!response.ok) {
         const errorText = await response.text();
+        console.error("Upload failed:", response.status, errorText);
         setUploadMessage(`❌ Upload failed: ${errorText}`);
       } else {
+        const responseText = await response.text();
+        console.log("Upload success response:", responseText);
         setUploadMessage("✅ File uploaded successfully!");
+
+        // Additional debug: Check if the file actually went to the right location
+        console.log("Expected file location:", `${uploadPath}/${file.name}`);
+
         dispatch(setIsUploading(true)); // Dispatch the action to set isUploading to true
         onUploadSuccess(); // Call the onUploadSuccess prop to notify the parent
         setTimeout(() => {
           setUploadMessage("");
+          setFile(null); // Clear the selected file
           onClose();
-        }, 1000);
+        }, 1500);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Upload error:", err);
       setUploadMessage("❌ An error occurred during upload.");
     } finally {
       setUploading(false);
@@ -84,30 +127,54 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
     try {
       setCreatingFolder(true);
       setFolderMessage("⏳ Creating folder...");
-      const folderPath =
-        currentPath === "/" ? "" : currentPath.replace(/\/$/, "");
-      const newFolderPath = `${folderPath}/${newFolderName}`;
-      console.log(newFolderPath);
+
+      // Ensure we have a valid current path - fallback to user root if not available
+      const basePath = currentPath || `/${username}`;
+
+      // Construct the new folder path correctly
+      const cleanBasePath = basePath.replace(/\/+$/, ""); // Remove trailing slashes
+      const newFolderPath = `${cleanBasePath}/${newFolderName.trim()}`;
+
+      console.log("=== FOLDER CREATION DEBUG INFO ===");
+      console.log("Current path from Redux:", currentPath);
+      console.log("Base path:", basePath);
+      console.log("Clean base path:", cleanBasePath);
+      console.log("Folder name:", newFolderName.trim());
+      console.log("New folder path:", newFolderPath);
+      console.log("=================================");
+
       const response = await fetch(
-        `${API_URL}/api/hdfs/createFolder?hdfsPath=${newFolderPath}`,
-        { method: "POST" }
+        `${API_URL}/api/hdfs/createFolder?hdfsPath=${encodeURIComponent(
+          newFolderPath
+        )}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
       );
+
+      console.log("Folder creation response status:", response.status);
 
       if (!response.ok) {
         const errorText = await response.text();
         setFolderMessage(`❌ Folder creation failed: ${errorText}`);
+        console.error("Folder creation failed:", response.status, errorText);
       } else {
+        const responseText = await response.text();
+        console.log("Folder creation success response:", responseText);
         setFolderMessage("✅ Folder created successfully!");
         dispatch(setIsUploading(true)); // Dispatch the action to set isUploading to true
-        onUploadSuccess(currentPath); // Call the onUploadSuccess prop after folder creation too
+        onUploadSuccess(); // Call the onUploadSuccess prop after folder creation too
         setNewFolderName("");
         setTimeout(() => {
           setFolderMessage("");
           onClose();
-        }, 1000);
+        }, 1500);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Error creating folder:", err);
       setFolderMessage("❌ An error occurred during folder creation.");
     } finally {
       setCreatingFolder(false);
@@ -129,6 +196,17 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
             ✕
           </button>
         </div>
+
+        {/* Current path display for debugging */}
+        <div className="px-6 py-2 bg-gray-50 border-b">
+          <p className="text-sm text-gray-600">
+            Current Directory:{" "}
+            <span className="font-mono text-blue-600">
+              {currentPath || `/${username}`}
+            </span>
+          </p>
+        </div>
+
         <div className="p-6 space-y-8">
           {/* File Upload Section */}
           <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
@@ -163,8 +241,6 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
               Create Folder
             </h3>
 
-
-            
             <input
               type="text"
               placeholder="Folder name"
@@ -188,6 +264,7 @@ const FileUploadModal = ({ show, onClose, onUploadSuccess }) => {
     </div>
   );
 };
+
 FileUploadModal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
